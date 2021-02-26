@@ -1,0 +1,8 @@
+.container{
+    padding-top: 2em;
+}
+
+.username-link{
+    cursor: pointer;
+    color: black;
+}

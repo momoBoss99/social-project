@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h1 style="padding-top: 1em;color: #E1306C; font-family: cursive;">poliTogram</h1>
+            <p>poliTogram ti permette di connetterti con altri studenti come te, chattare e postare tantissimi bei post!</p>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <!-- login form -->
+            <div class="login-form" style="padding-top: 1em;">
+                <form (ngSubmit)="onSubmit()" #authForm="ngForm">
+                    <h2 class="text-center" style="color: #E1306C;">Accedi</h2>   
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user"></span>
+                                </span>                    
+                            </div>
+                            <input 
+                                    type="text" 
+                                    class="form-control"
+                                    ngModel
+                                    name="email" 
+                                    placeholder="Email" 
+                                    required="required">				
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>                    
+                            </div>
+                            <input 
+                                    type="password" 
+                                    class="form-control"
+                                    ngModel
+                                    name="password" 
+                                    placeholder="Password" 
+                                    required="required">				
+                        </div>
+                    </div>        
+                    <div class="form-group">
+                        <button 
+                                type="submit" 
+                                class="btn btn-primary login-btn btn-block" 
+                                style="background-color: #E1306C"
+                                [disabled]="!authForm.valid">Accedi</button>
+                    </div>
+                    <div class="clearfix">
+                        <label class="float-left form-check-label"><input type="checkbox">Ricordami</label>
+                        <a href="#" class="float-right" style="color: #E1306C;">Password dimenticata?</a>
+                    </div>
+                </form>
+                <p class="text-center text-muted small">Non hai ancora un account? <a routerLink="/register" style="color: #E1306C; cursor: pointer;">Registrati qui!</a></p>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
