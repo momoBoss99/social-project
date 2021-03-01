@@ -99,6 +99,38 @@ export default class ProfilesService {
     }
 
     /**
+     * faccio una chiamata get che mi raccoglie i vari post di tutti
+     * gli utenti che hanno fatto dei post.
+     * sulla chiamata bisogna ancora fare .subscribe().
+     * i post sono ordinati per data di pubblicazione
+     */
+    getAllPosts(){
+        return this.http.get<Post[]>(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/posts/.json`
+        ).pipe(
+            map(responseData => {
+                let arrayPost: Post[] = [];
+
+                for(const key in responseData){
+                    if(responseData.hasOwnProperty(key)){
+                        arrayPost.push({...responseData[key]});
+                    }
+                }
+                console.log(arrayPost);
+                /**
+                 * sorting dei post per data di pubblicazione
+                 */
+                arrayPost = arrayPost.sort((a: Post, b: Post) => {
+                    let res = new Date(b.dataPost).getDate() - 
+                            new Date(a.dataPost).getTime();
+                    return res;
+                });
+                return arrayPost;
+            })
+        );
+    }
+
+    /**
      * 
      * @param post post modificato da inserire al posto di quello
      * che c'era

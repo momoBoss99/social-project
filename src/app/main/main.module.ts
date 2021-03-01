@@ -10,6 +10,7 @@ import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SearchProfilesComponent } from './search-profiles/search-profiles.component';
+import { DetailPostComponent } from './profile-page/detail-post/detail-post.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { SearchProfilesComponent } from './search-profiles/search-profiles.compo
         HeaderComponent,
         HomepageComponent,
         ProfilePageComponent,
-        SearchProfilesComponent
+        SearchProfilesComponent,
+        DetailPostComponent
     ],
     imports: [
         RouterModule,

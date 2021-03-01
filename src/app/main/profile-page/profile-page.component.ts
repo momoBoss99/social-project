@@ -13,6 +13,8 @@ export class ProfilePageComponent implements OnInit {
   profilo: Profile;
   idProfilo: number;
   posts: Post[];
+  click: boolean = false;
+
   constructor(private profileService: ProfilesService) { }
 
   ngOnInit(): void {
@@ -38,6 +40,11 @@ export class ProfilePageComponent implements OnInit {
           this.posts = postsResponse;
         }
       )
+    }
+
+
+    onOpenPost(){
+      this.click = !this.click;
     }
 
 }

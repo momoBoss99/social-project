@@ -7,7 +7,9 @@ import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
 const routes: Routes = [
-    { path: '', component: MainComponent, canActivate: [AuthGuard], children: [
+    { path: '', component: MainComponent,
+            //canActivate: [AuthGuard],
+            children: [
         { path: '', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
         { path: 'search/:name', component: SearchProfilesComponent}
