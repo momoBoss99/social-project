@@ -3,7 +3,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { AuthGuard } from "../auth/auth.guard";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from './homepage/homepage.component';
 import { MainRoutingModule } from "./main-routing.module";
@@ -11,6 +10,8 @@ import { MainComponent } from "./main.component";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SearchProfilesComponent } from './search-profiles/search-profiles.component';
 import { DetailPostComponent } from './profile-page/detail-post/detail-post.component';
+import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
+import { PostCardComponent } from "./post-card/post-card.component";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,9 @@ import { DetailPostComponent } from './profile-page/detail-post/detail-post.comp
         HomepageComponent,
         ProfilePageComponent,
         SearchProfilesComponent,
-        DetailPostComponent
+        DetailPostComponent,
+        DetailFullComponent,
+        PostCardComponent
     ],
     imports: [
         RouterModule,

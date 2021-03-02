@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail-post',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detail-post.component.scss']
 })
 export class DetailPostComponent implements OnInit {
+  @Input('src') srcImg: string;
+  @Input('idPost') idPost: number;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  onOpenPost(){
+    this.router.navigate(['/profiles/posts/2']);
+  }
 }

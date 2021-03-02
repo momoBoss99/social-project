@@ -4,6 +4,7 @@ import { Post } from "../shared/post.model";
 import { Profile } from "../shared/profile.model";
 import { map} from 'rxjs/operators';
 import { Commento } from "../shared/commento.model";
+import { CommandName } from "protractor";
 /**
  * questo service mi serve per connettermi al DB
  * e fare le operazioni CRUD
@@ -106,7 +107,7 @@ export default class ProfilesService {
      */
     getAllPosts(){
         return this.http.get<Post[]>(
-            `https://social-project-3d34c-default-rtdb.firebaseio.com/posts/.json`
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/posts.json`
         ).pipe(
             map(responseData => {
                 let arrayPost: Post[] = [];
@@ -131,6 +132,17 @@ export default class ProfilesService {
     }
 
     /**
+     * metodo che mi permette di fare una get di un singolo post nel database (per visualizzare il dettaglio)
+     * sul metodo devo ancora fare la subscribe
+     * @param id codice identificativo del post
+     */
+    getPost(id: number){
+        return this.http.get<Post>(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/posts/${id}.json`
+        );
+    }
+
+    /**
      * 
      * @param post post modificato da inserire al posto di quello
      * che c'era
@@ -148,9 +160,29 @@ export default class ProfilesService {
      */
     onAddComment(commento: Commento){
         this.http.post<Commento>(
-            `https://social-project-3d34c-default-rtdb.firebaseio.com/posts/${commento.idProfilo}/${commento.idPost}/comments.json`, commento
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/comments.json`, commento
         ).subscribe(responseData => {
             console.log(responseData);
         })
+    }
+
+    /**
+     * metodo che mi permette di fare il fetch di tutti i commenti
+     */
+    getComments(){
+        return this.http.get<Commento[]>(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/comments.json`
+        ).pipe(
+            map(responseData => {
+                const commentiArray: Commento[] = [];
+                for(const key in responseData){
+                    if(responseData.hasOwnProperty(key)){
+                        commentiArray.push({...responseData[key]});
+                    }
+                }
+                return commentiArray;
+            })
+        )
+        ;
     }
 }

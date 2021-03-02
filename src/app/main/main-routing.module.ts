@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "../auth/auth.guard";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
+import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
@@ -12,7 +13,8 @@ const routes: Routes = [
             children: [
         { path: '', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
-        { path: 'search/:name', component: SearchProfilesComponent}
+        { path: 'search/:name', component: SearchProfilesComponent},
+        { path: 'posts/:id', component: DetailFullComponent}
         /**
          * aggiungere gli altri path
          */

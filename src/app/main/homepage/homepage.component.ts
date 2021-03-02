@@ -19,7 +19,7 @@ export class HomepageComponent implements OnInit {
    * lavoro con due vettori paralleli, uno dei post e uno dei profili.
    */
   posts: Post[];
-  mappaProfiloPost: Map<Profile, Post[]> = new Map();
+  //mappaProfiloPost: Map<Profile, Post[]> = new Map();
   profiles: Profile[] = [];
   constructor(private profileService: ProfilesService) { }
 
@@ -35,7 +35,6 @@ export class HomepageComponent implements OnInit {
     this.profileService.onFetchPosts(1).subscribe(
       postsResponse => {
         this.posts = postsResponse;
-        this.riempiMappa(this.posts);
         this.riempiProfili(this.posts);
       }
     )
@@ -53,36 +52,5 @@ export class HomepageComponent implements OnInit {
     }
     console.log(this.profiles);
   }
-
-  private riempiMappa(posts: Post[]){
-    posts.forEach(post => {
-      let account: Profile;
-      this.profileService.fetchAccount(post.idProfile)
-      .subscribe(
-        responseProfile => {
-          account = responseProfile;
-          let found: boolean = false;
-          for(let key of this.mappaProfiloPost.keys()){
-            if(key.id === account.id){
-              console.log('il profilo ce');
-              found = true;
-              this.mappaProfiloPost.get(key).push(post);
-              break;
-            }
-            found = false;
-          }
-          if(!found){
-            console.log('il profilo non ce');
-            let postProfilo: Post[] = [];
-            postProfilo.push(post);
-            this.mappaProfiloPost.set(account, postProfilo);
-          }
-        }
-      )
-    });
-    console.log(this.mappaProfiloPost);
-  }
-
-
 
 }

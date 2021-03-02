@@ -42,9 +42,14 @@ export class ProfilePageComponent implements OnInit {
       )
     }
 
-
-    onOpenPost(){
+    /**
+     * modale dinamico che apre un modale con dentro solo l'immagine
+     * se cliccata l'immagine mi trasporta alla pagina del dettaglio dell'immagine
+     */
+    onOpenModalPost(){
       this.click = !this.click;
     }
+
+
 
 }
