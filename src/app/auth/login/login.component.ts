@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthLocalStorage } from '../auth-local-storage.service';
 import { AuthResponseData, AuthService } from '../auth.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('authForm') loginForm: NgForm;
   authObs: Observable<AuthResponseData>;
 
-  constructor(private authService: AuthService, private router: Router){}
+  constructor(private authService: AuthLocalStorage, private router: Router){}
   ngOnInit(): void {
 
   }
@@ -25,16 +26,17 @@ export class LoginComponent implements OnInit {
 
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
+      /*
       this.authObs = this.authService.login(email, password);
 
       this.authObs.subscribe(resData => {
           console.log(resData);
           console.log('successo');
           this.router.navigate(['/profiles/1']);
-          // naviga nella homepage del profilo
       }, errorMessage => {
           console.log(errorMessage);
       });
+      */
 
       this.loginForm.reset();
   }

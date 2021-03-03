@@ -71,7 +71,7 @@
                 <div class="ctrl ctrl-dots"></div>
             </section>
             <section class="instapost__action">
-                <button class="btn btn-like">
+                <button class="btn btn-like" (click)="onToggleLike()">
                     <svg class="like-icon">
                         <use xlink:href="#like" />
                     </svg>
@@ -96,7 +96,7 @@
                 </button>
             </section>
             <section class="instapost__likes">
-                Piace a <a class="instalink" target="_blank">margamonte</a> e <a *ngIf="post" class="instalink" href="" target="_blank">altri {{ post.likes}}</a>
+                Piace a <a class="instalink" target="_blank">margamonte</a> e <a *ngIf="post" class="instalink" href="" target="_blank">altri {{ likesAlPost.length}}</a>
             </section>
             <section *ngIf="profilo" class="instapost__description">
                 <a class="user instalink" target="_blank">
@@ -133,5 +133,4 @@
             </section>
         </article>
     </div>
-
 </div>

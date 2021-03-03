@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Commento } from "src/app/shared/commento.model";
+import { Like } from "src/app/shared/like.model";
 import { Post } from "src/app/shared/post.model";
 import { Profile } from "src/app/shared/profile.model";
 import ProfilesService from "../profiles.service";
@@ -25,7 +26,10 @@ export class PostCardComponent implements OnInit {
      */
     commenti: Commento[] = [];
     profiliCommentatori: Profile[] = [];
+    likesAlPost: Like[] = [];
     loadingComment: boolean = false;
+    loadingLikes: boolean = false;
+
     commento: string;
     commentoInviato: boolean = false;
 
@@ -34,6 +38,7 @@ export class PostCardComponent implements OnInit {
     ngOnInit(){
         this.loadingComment = false;
         this.getAndFiltraCommenti();
+        this.getAndFiltraLikes();
     }
     
     /**
@@ -60,7 +65,10 @@ export class PostCardComponent implements OnInit {
                 );
         
     }
-
+    /**
+     * metodo privato che effettua una get di tutti i commenti 
+     * e fa un filtraggio per ottenere solo i commenti relativi al post
+     */
     private getAndFiltraCommenti(){
         this.profilesService.getComments().subscribe(
             responseComments => {
@@ -88,6 +96,31 @@ export class PostCardComponent implements OnInit {
             }
         )
     }
-
-
-}
+    /**
+     * metodo privato che mi permette di prendere tutti i like e poi
+     * filtrare prendendo solo quelli relativi a questo post
+     */
+    private getAndFiltraLikes(){
+        this.loadingLikes = false;
+        this.profilesService.getLikes().subscribe(
+            likesResponse => {
+                this.likesAlPost = [];
+                /**
+                 * operazione di filtraggio dei likes
+                 */
+                for(let like of likesResponse){
+                    if(like.idPost === this.post.idPost.toString()){
+                        this.likesAlPost.push(like);
+                    }
+                }
+                this.loadingLikes = true;
+            }
+        );
+    }
+    /**
+     * se c'è già il like, viene aggiunto, altrimenti viene tolto
+     */
+    onToggleLike(){
+        console.log('like toggled');
+    }
+}   

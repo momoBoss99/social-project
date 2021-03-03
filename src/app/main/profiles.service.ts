@@ -6,6 +6,7 @@ import { map} from 'rxjs/operators';
 import { Commento } from "../shared/commento.model";
 import { CommandName } from "protractor";
 import { Subject } from "rxjs";
+import { Like } from "../shared/like.model";
 /**
  * questo service mi serve per connettermi al DB
  * e fare le operazioni CRUD
@@ -183,5 +184,37 @@ export default class ProfilesService {
             })
         )
         ;
+    }
+
+    /**
+     * metodo che prende tutti i like del db e su cui dovrò 
+     * fare la subscribe e il filtraggio per id del post
+     */
+    getLikes(){
+        return this.http.get<Like[]>(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/likes.json`
+            ).pipe(
+                map(responseLikes => {
+                    const likeArray: Like[] = [];
+                    for(const key in responseLikes){
+                        if(responseLikes.hasOwnProperty(key)){
+                            likeArray.push({...responseLikes[key]});
+                        }
+                    }
+                    return likeArray;
+                })
+            )
+    }
+
+    /**
+     * metodo che mi permette di aggiungere un like al database,
+     * contente già le informazioni relative al post e a chi mette
+     * il like al post
+     * @param like body della chiamata http
+     */
+    addLike(like: Like){
+        return this.http.post<Like>(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/likes.json`, like
+        );
     }
 }
