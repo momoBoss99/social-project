@@ -37,10 +37,10 @@
         <article class="instapost">
             <header class="instapost__header">
                 <a class="profile-img" href="https://www.instagram.com/gabormolnar92/" target="_blank">
-                    <img [src]="[profilo.proPic]" alt="gabormolnar92" />
+                    <img *ngIf="profilo" [src]="[profilo.proPic]" alt="gabormolnar92" />
                 </a>
                 <div class="profile-name">
-                    <a class="user instalink" href="https://www.instagram.com/gabormolnar92/" target="_blank">
+                    <a *ngIf="profilo" class="user instalink" href="https://www.instagram.com/gabormolnar92/" target="_blank">
                         {{profilo.nickname}}
                     </a>
                     <a class="location" href="https://www.instagram.com/explore/locations/55389054/debrecen/" target="_blank">Turin, Italy</a>
@@ -96,9 +96,9 @@
                 </button>
             </section>
             <section class="instapost__likes">
-                Piace a <a class="instalink" target="_blank">margamonte</a> e <a class="instalink" href="" target="_blank">altri {{ post.likes}}</a>
+                Piace a <a class="instalink" target="_blank">margamonte</a> e <a *ngIf="post" class="instalink" href="" target="_blank">altri {{ post.likes}}</a>
             </section>
-            <section class="instapost__description">
+            <section *ngIf="profilo" class="instapost__description">
                 <a class="user instalink" target="_blank">
                         {{profilo.nickname}}
                     </a> {{post.descrizione}}
@@ -110,9 +110,10 @@
                 <div *ngFor="let commento of commenti; let i = index">
                     <a class="user instalink" target="_blank">
                         {{profiliCommentatori[i].nickname}}
-                    </a> {{commento.comment}}
+                    </a> <span>{{commento.comment}}</span>
                 </div>
             </section>
+
             <a class="instapost__comment-list" href="#">
                 Vedi tutti i commenti
             </a>

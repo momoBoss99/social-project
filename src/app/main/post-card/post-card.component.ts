@@ -25,25 +25,46 @@ export class PostCardComponent implements OnInit {
      */
     commenti: Commento[] = [];
     profiliCommentatori: Profile[] = [];
+    loadingComment: boolean = false;
     commento: string;
     commentoInviato: boolean = false;
 
     constructor(private profilesService: ProfilesService){}
 
     ngOnInit(){
+        this.loadingComment = false;
         this.getAndFiltraCommenti();
-
     }
-
+    
+    /**
+     * aggiunta di un commento
+     */
     onSubmit(){
         this.commentoInviato = true;
-        console.log(this.commenti[this.commenti.length-1].idCommento+1);
-        this.profilesService.onAddComment(new Commento(this.commento, 0, new Date(Date.now()), this.profilo.id, this.commenti[this.commenti.length-1].idCommento+1, this.post.idPost, 1));
+        this.loadingComment = false;
+        let idNuovoCommento: number;
+        if(this.commenti){
+            console.log('è definito');
+        }
+        else {
+            console.log('non è definito')
+            idNuovoCommento = 0;
+        }
+        this.profilesService
+                .onAddComment(new Commento(this.commento, 0, new Date(Date.now()), this.profilo.id, this.post.idPost, 1))
+                .subscribe(
+                    /**
+                     * aggiornamento dinamico dei commenti del post dopo averne scritto uno nuovo
+                     */
+                    (response) => {this.getAndFiltraCommenti();}
+                );
+        
     }
 
     private getAndFiltraCommenti(){
         this.profilesService.getComments().subscribe(
             responseComments => {
+                this.commenti = [];
                 console.log(responseComments);
                 /**
                  * operazione di filtraggio per ottenere solo
@@ -62,6 +83,7 @@ export class PostCardComponent implements OnInit {
                         )
                     }
                 }
+                this.loadingComment = true;
                 console.log(this.commenti);
             }
         )

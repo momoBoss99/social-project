@@ -5,6 +5,7 @@ import { Profile } from "../shared/profile.model";
 import { map} from 'rxjs/operators';
 import { Commento } from "../shared/commento.model";
 import { CommandName } from "protractor";
+import { Subject } from "rxjs";
 /**
  * questo service mi serve per connettermi al DB
  * e fare le operazioni CRUD
@@ -159,11 +160,9 @@ export default class ProfilesService {
      * metodo che mi permette di aggiungere un commento ad un post
      */
     onAddComment(commento: Commento){
-        this.http.post<Commento>(
+        return this.http.post<Commento>(
             `https://social-project-3d34c-default-rtdb.firebaseio.com/comments.json`, commento
-        ).subscribe(responseData => {
-            console.log(responseData);
-        })
+        );
     }
 
     /**
