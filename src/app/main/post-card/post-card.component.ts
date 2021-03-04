@@ -122,5 +122,61 @@ export class PostCardComponent implements OnInit {
      */
     onToggleLike(){
         console.log('like toggled');
+        console.log(this.likeCheck());
+        let idSession = JSON.parse(localStorage.getItem("sessione")).id;
+        /**
+         * se il like era già presente, lo rimuovo
+         */
+        if(this.likeCheck()){
+            console.log('rimozione like');
+            this.profilesService.removeLike(this.post.idPost, idSession).subscribe(response => {
+                console.log(response);
+            })
+        }
+        /**
+         * altrimenti, aggiungo il like
+         */
+        else{
+            console.log('aggiunta like');
+            this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(
+                responseData => {
+                    console.log(responseData);
+                }
+            );
+        }
+    }
+
+    /**
+     * metodo che verifica se il like a questo preciso post da parte
+     * della persona loggata in questione è presente o meno
+     */
+    async likeCheck(): Promise<boolean>{
+        let response: boolean = false;
+        this.profilesService.getLikes().subscribe(
+            responseLikes => {
+                /**
+                 * nessuno ha mai messo dei likes!
+                 */
+                if (responseLikes.length === 0) {
+                    return false;
+                }
+                for (let like of responseLikes) {
+                    if (parseInt(like.idPost) === this.post.idPost) {
+                        let idSession = JSON.parse(localStorage.getItem("sessione")).id;
+                        if (parseInt(like.idProfileLiker) === idSession) {
+                            /**
+                             * tutti i check sono okay, il like c'è già
+                             */
+                            console.log('like cera');
+                            response = true;
+                            return true;
+                        }
+                    }
+                }
+                response = false;
+                return false;
+            }
+        )
+        return response;
     }
 }   

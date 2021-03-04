@@ -4,9 +4,8 @@ import { Post } from "../shared/post.model";
 import { Profile } from "../shared/profile.model";
 import { map} from 'rxjs/operators';
 import { Commento } from "../shared/commento.model";
-import { CommandName } from "protractor";
-import { Subject } from "rxjs";
 import { Like } from "../shared/like.model";
+
 /**
  * questo service mi serve per connettermi al DB
  * e fare le operazioni CRUD
@@ -38,7 +37,7 @@ export default class ProfilesService {
     /**
      * metodo che prepara la chiamata http di tipo get di 
      * un profilo da fetchare dato l'id
-     * @param id numero che identifica l'id dell'utente da 
+     * @param id numero che identifica l'id dell'utente da
      * fetchare dal db
      */
     fetchAccount(id: number){
@@ -203,7 +202,7 @@ export default class ProfilesService {
                     }
                     return likeArray;
                 })
-            )
+            );
     }
 
     /**
@@ -216,5 +215,38 @@ export default class ProfilesService {
         return this.http.post<Like>(
             `https://social-project-3d34c-default-rtdb.firebaseio.com/likes.json`, like
         );
+    }
+    /**
+     * per rimuovere il like, mi serve il suo id, che mi verrà fornito da un altro metodo
+     */
+    removeLike(idPost, idProfileLiker){
+        let idDatabaseLike = this.getIdLike(idPost, idProfileLiker);
+        return this.http.delete(`https://social-project-3d34c-default-rtdb.firebaseio.com/likes/${idDatabaseLike}.json`);
+    }
+    /**
+     * metodo ausiliario che mi serve a trovare l'id nel database del like
+     * @param idPost 
+     * @param idProfileLiker 
+     */
+    private getIdLike(idPost, idProfileLiker): string{
+        let idLikeDB: string = null;
+        this.http.get(
+            `https://social-project-3d34c-default-rtdb.firebaseio.com/likes.json`
+        ).pipe(
+            map(responseLikes => {
+                for(const key in responseLikes){
+                    if(responseLikes.hasOwnProperty(key)){
+                        let like = {...responseLikes[key]};
+                        if(like.idPost === idPost && like.idProfileLiker === idProfileLiker){
+                            console.log("chiave trovata!");
+                            idLikeDB = key;
+                            return;
+                        }
+                    }
+                }
+                console.log("chiave non trovata!");
+            })
+        )
+        return idLikeDB;
     }
 }

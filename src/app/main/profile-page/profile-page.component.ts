@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';
 import ProfilesService from '../profiles.service';
@@ -15,13 +16,16 @@ export class ProfilePageComponent implements OnInit {
   posts: Post[];
   click: boolean = false;
 
-  constructor(private profileService: ProfilesService) { }
+  constructor(private profileService: ProfilesService,
+              private router: Router) { }
 
   ngOnInit(): void {
     /**
      * id profilo da fixare. Faccio una prova:
      */
-    this.idProfilo = 1;
+    let inizioIdDaCercare = 10;
+    this.idProfilo = parseInt(this.router.url.substring(inizioIdDaCercare, this.router.url.length));
+    console.log(this.idProfilo);
     /**
      * step 1: fetch of all the accounts
      */
@@ -41,7 +45,6 @@ export class ProfilePageComponent implements OnInit {
         }
       )
     }
-
     /**
      * modale dinamico che apre un modale con dentro solo l'immagine
      * se cliccata l'immagine mi trasporta alla pagina del dettaglio dell'immagine
