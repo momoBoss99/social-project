@@ -25,7 +25,6 @@ export default class ProfilesService {
             'https://social-project-3d34c-default-rtdb.firebaseio.com/profiles.json'
         );
     }
-
     /**
      * metodo che prepara la chiamata http di get di tutti i profili che hanno
      * nickname simile a quello ricevuto come parametro in ingresso
