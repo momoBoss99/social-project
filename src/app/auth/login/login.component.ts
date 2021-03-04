@@ -26,6 +26,13 @@ export class LoginComponent implements OnInit {
 
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
+      if(this.authService.login(email, password)){
+        let user: {email: string, password: string, id: number} = JSON.parse(localStorage.getItem("sessione"));
+        let idUser: number = user.id;
+        this.router.navigate([`/profiles/${idUser}`]);
+      } else {
+        console.log("login non riuscito");
+      }
       /*
       this.authObs = this.authService.login(email, password);
 

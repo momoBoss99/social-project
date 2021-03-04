@@ -1,9 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import ProfilesService from "../main/profiles.service";
+import { Profile } from "../shared/profile.model";
 
 /**
- * fake service di autenticazione che utilizza il local storage 
+ * fake service di autenticazione che utilizza il local storage
  * per registrare/loggare utenti.
  * Verrà rimpiazzato dal backend
  */
@@ -11,28 +13,64 @@ import { Router } from "@angular/router";
     providedIn: 'root'
 })
 export class AuthLocalStorage {
-    constructor(private http: HttpClient, private router: Router){}
+    constructor(private http: HttpClient,
+                private router: Router,
+                private profilesService: ProfilesService){}
 
     /**
      * fake signup with localStorage
      */
-    signup(email: string, password: string, id: string){
+    signup(email: string, password: string, username: string){
         /**
          * prendo gli utenti presenti nel localStorage, al più 
          * l'array vuoto se non vi sono utenti salvati
          */
-        let users: {email, password, id}[] = [];
+        let users: {email: string, password: string, id: number}[] = [];
+        let id: number;
         users = JSON.parse(localStorage.getItem("utenti") || "[]");
+        if(users.length == 0){
+            id = 0;
+        }
+        else {
+            id = users[users.length-1].id + 1;
+        }
         users.push({email, password, id});
+        /**
+         * creazione dell'utente nel database effettivo
+         */
+        this.profilesService.onCreateAccount(new Profile(id, username, username, 0, 0, "perchè non aggiungi una biografia?", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", email));
         localStorage.setItem("utenti", JSON.stringify(users));
         console.log(JSON.parse(localStorage.getItem("utenti")));
     }
     /**
      * 
      */
-    login(){}
+    login(email: string, password: string) : boolean {
+        let users: {email: string, password: string, id: number}[] = [];
+        users = JSON.parse(localStorage.getItem("utenti") || "[]");
+        if(users.length == 0){
+            console.log("non ci sono utenti");
+            return false;
+        }
+        else {
+            for(let user of users){
+                if(user.email === email){
+                    if(user.password === password){
+                        console.log(user);
+                        console.log("user trovato");
+                        localStorage.setItem("sessione", JSON.stringify(user));
+                        return true;
+                    }
+                }
+            }
+            console.log("user non trovato");
+        }
+        return false;
+    }
     /**
      * 
      */
-    logout(){}
+    logout(){
+        localStorage.removeItem("sessione");
+    }
 }

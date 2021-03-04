@@ -35,7 +35,8 @@ export class RegisterComponent implements OnInit {
 
     const email = this.registraForm.value.email;
     const password = this.registraForm.value.password;
-    this.authService.signup(email, password, "id1");
+    const nickname = this.registraForm.value.username;
+    this.authService.signup(email, password, nickname);
     /*
     this.authObs = this.authService.signup(email, password);
 
