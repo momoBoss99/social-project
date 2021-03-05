@@ -8,14 +8,15 @@ import { Router } from '@angular/router';
 })
 export class DetailPostComponent implements OnInit {
   @Input('src') srcImg: string;
-  @Input('idPost') idPost: number;
+  @Input('idPost') idPost: string;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    
   }
 
   onOpenPost(){
-    this.router.navigate(['/profiles/posts/2']);
+    this.router.navigate([`/profiles/posts/${this.idPost}`]);
   }
 }

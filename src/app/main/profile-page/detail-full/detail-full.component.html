@@ -1,4 +1,8 @@
-<app-post-card 
+<div class="loading" *ngIf="!loadingProfile || !loadingPost">
+    <p>loading...</p>
+</div>
+<app-post-card  
                 [profilo]="profilo"
-                [post]="post">
+                [post]="post"
+                *ngIf="loadingPost && loadingProfile">
 </app-post-card>

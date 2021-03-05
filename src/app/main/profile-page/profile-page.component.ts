@@ -13,8 +13,9 @@ import { AccountsService } from '../accounts.service';
 export class ProfilePageComponent implements OnInit {
   profilo: Profile;
   idProfilo: string;
-  posts: Post[];
+  posts: Post[] = [];
   loadingProfile: boolean = false;
+  loadingPosts: boolean = false;
   click: boolean = false;
 
   constructor(private profileService: AccountsService,
@@ -39,7 +40,22 @@ export class ProfilePageComponent implements OnInit {
      * prende i post dal DB
      */
     private getPosts(){
-      this.posts = this.profileService.fetchPostsByIdProfile(this.idProfilo);
+      this.profileService.fetchPosts().subscribe(
+        responsePosts => {
+          for(let post of responsePosts){
+            if(post.idProfile === this.idProfilo){
+              console.log(post);
+              this.posts.push(post);
+            }
+          }
+          console.log(this.posts);
+          this.loadingPosts = true;
+        }
+      );
+    }
+
+    openPost(idPost: string){
+      this.router.navigate([`/profiles/posts/${idPost}`]);
     }
     /**
      * modale dinamico che apre un modale con dentro solo l'immagine

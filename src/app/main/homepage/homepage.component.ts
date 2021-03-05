@@ -41,11 +41,26 @@ export class HomepageComponent implements OnInit {
 
   private riempiProfili(posts: Post[]){
     for(let post of posts){
-      let profilo: Profile;
+      //let profilo: Profile;
       //profilo = this.profileService.fetchAccount(post.idProfile);
-      this.profiles.push(profilo);
+      this.getAccount(post.idProfile);
+      //this.profiles.push(profilo);
     }
     console.log(this.profiles);
+  }
+
+
+  private getAccount(idProfilo: string){
+    this.profileService.fetchAccounts().subscribe(
+      responseProfiles => {
+        for(let profile of responseProfiles){
+          if(profile.id === idProfilo){
+            this.profiles.push(profile);
+            break;
+          }
+        }
+      }
+    )
   }
 
 }

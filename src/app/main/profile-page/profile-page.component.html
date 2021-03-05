@@ -48,29 +48,31 @@
 <!--
 	POSTS SECTION: QUI CI SONO TUTTI I POST DI UN PROFILO.
 -->
-<main>
+<div class="loading" *ngIf="!loadingPosts">loading...</div>
 
-	<div class="container" >
+<main *ngIf="loadingPosts">
+
+	<div class="container">
 
 		<div class="gallery" >
 
 			<div class="wrapper" *ngFor="let post of posts">
-				<div class="gallery-item" tabindex="0" (click)="onOpenModalPost()">
+				<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
 
-					<app-detail-post 
+					<!--<app-detail-post 
 									*ngIf="click"
 									[src]="post.urlImg"
 									[idPost]="post.idPost">
-					</app-detail-post>
+					</app-detail-post>-->
 					
 					<img src={{post.urlImg}} class="gallery-image" alt="">
 	
 					<div class="gallery-item-info">
 	
-						<ul>
+						<!--<ul>
 							<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span>{{post.likes}}</li>
 							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span>{{post.comments.length}}</li>
-						</ul>
+						</ul>-->
 	
 					</div>
 	

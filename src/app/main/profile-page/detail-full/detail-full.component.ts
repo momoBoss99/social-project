@@ -14,7 +14,8 @@ export class DetailFullComponent implements OnInit {
     post: Post;
     idPost: string;
     idProfilo: string;
-
+    loadingProfile: boolean = false;
+    loadingPost: boolean = false;
 
     constructor(private profilesService: AccountsService, private route: Router){}
 
@@ -25,19 +26,35 @@ export class DetailFullComponent implements OnInit {
     private getDati(){
         this.idPost = this.route.url.substring(16, this.route.url.length);
         console.log(this.idPost);
-        this.post = this.profilesService.fetchPost(this.idPost);
-        //this.profilo = this.profilesService.fetchAccount(this.post.idProfile);
-        /*
-        this.profilesService.getPost(this.idPost).subscribe(
-            responsePost => {
-                this.post = responsePost;
-                this.idProfilo = this.post.idProfile;
-                this.profilesService.fetchAccount(this.idProfilo).subscribe(
-                    responseProfile => {
-                        this.profilo = responseProfile;
+        this.getPost();
+    }
+
+    private getPost(){
+        this.profilesService.fetchPosts().subscribe(
+            responsePosts => {
+                for(let post of responsePosts){
+                    if(post.idPost === this.idPost){
+                        this.post = post;
+                        this.loadingPost = true;
+                        this.getProfile();
+                        break;
                     }
-                );
+                }
             }
-        );*/
+        );
+    }
+
+    private getProfile(){
+        this.profilesService.fetchAccounts().subscribe(
+            responseAccounts => {
+                for(let account of responseAccounts){
+                    if(account.id === this.post.idProfile){
+                        this.profilo = account;
+                        this.loadingProfile = true;
+                        break;
+                    }
+                }
+            }
+        );
     }
 }

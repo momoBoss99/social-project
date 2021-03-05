@@ -156,7 +156,7 @@ export class AccountsService {
      * metodo che mi permette di fare una get di un singolo post dal DB
      * per visuallizare il dettaglio del post
      * @param idPost 
-     */
+    
     fetchPost(idPost: string): Post{
         let postSearched: Post = null;
 
@@ -173,6 +173,7 @@ export class AccountsService {
 
         return postSearched;
     }
+    */
     /**
      * metodo che mi permette di aggiungere un commento ad un post.
      * Subscription delegata al chiamante
