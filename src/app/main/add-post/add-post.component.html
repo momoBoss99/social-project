@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form (ngSubmit)="onSubmit()" #f="ngForm">
+                <h2 class="text-center">aggiungi url immagine</h2>
+                <input 
+                        type="text"
+                        class="form-control"
+                        name="urlImg"
+                        placeholder="url..."
+                        ngModel
+                        required>
+                <h2 class="text-center">aggiungi una descrizione</h2>
+                <input
+                        type="text"
+                        class="form-control"
+                        name="descrizione"
+                        placeholder="descrizione..."
+                        ngModel
+                        required>
+                
+                <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="!f.valid">
+                    aggiungi
+                </button>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>

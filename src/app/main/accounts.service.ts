@@ -84,21 +84,17 @@ export class AccountsService {
     }
     /**
      * metodo che mi permette di creare un post e memorizzarlo
-     * nel db
+     * nel db. subscribe delegata al chiamante
      * @param post 
      */
     createPost(post: Post){
         let ora = new Date(Date.now());
         post.dataPost = ora;
 
-        this.http.post(
+        return this.http.post<Post>(
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts.json`,
             post
-        ).subscribe(responseData => {
-            console.log(responseData);
-        }, error => {
-            console.log(error);
-        });
+        );
     }
     /**
      * metodo che mi permette di prendere tutti i post del DB.

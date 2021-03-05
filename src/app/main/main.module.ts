@@ -12,6 +12,7 @@ import { SearchProfilesComponent } from './search-profiles/search-profiles.compo
 import { DetailPostComponent } from './profile-page/detail-post/detail-post.component';
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { PostCardComponent } from "./post-card/post-card.component";
+import { AddPostComponent } from "./add-post/add-post.component";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { PostCardComponent } from "./post-card/post-card.component";
         SearchProfilesComponent,
         DetailPostComponent,
         DetailFullComponent,
-        PostCardComponent
+        PostCardComponent,
+        AddPostComponent
     ],
     imports: [
         RouterModule,
