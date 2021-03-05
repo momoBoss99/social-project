@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';
-import ProfilesService from '../profiles.service';
+import { AccountsService } from '../accounts.service';
 
 
 @Component({
@@ -12,38 +12,34 @@ import ProfilesService from '../profiles.service';
 })
 export class ProfilePageComponent implements OnInit {
   profilo: Profile;
-  idProfilo: number;
+  idProfilo: string;
   posts: Post[];
+  loadingProfile: boolean = false;
   click: boolean = false;
 
-  constructor(private profileService: ProfilesService,
+  constructor(private profileService: AccountsService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.getProfile();
+    this.getPosts();
+    }
     /**
-     * id profilo da fixare. Faccio una prova:
+     * prende il profilo dal DB
      */
-    let inizioIdDaCercare = 10;
-    this.idProfilo = parseInt(this.router.url.substring(inizioIdDaCercare, this.router.url.length));
-    console.log(this.idProfilo);
+    private getProfile(){
+      let inizioIdDaCercare = 10;
+      this.idProfilo = this.router.url.substring(inizioIdDaCercare, this.router.url.length);
+      console.log(this.idProfilo);
+      this.getAccount();
+      
+      console.log(this.profilo);
+    }
     /**
-     * step 1: fetch of all the accounts
+     * prende i post dal DB
      */
-    this.profileService.fetchAccount(this.idProfilo).subscribe(
-      profiloResponse => {
-        this.profilo = profiloResponse;
-        console.log(profiloResponse);
-        /**
-         * step 2: fetch of all the posts of the account
-         */
-      }
-      )
-      this.profileService.onFetchPosts(this.idProfilo).subscribe(
-        postsResponse => {
-          console.log(postsResponse);
-          this.posts = postsResponse;
-        }
-      )
+    private getPosts(){
+      this.posts = this.profileService.fetchPostsByIdProfile(this.idProfilo);
     }
     /**
      * modale dinamico che apre un modale con dentro solo l'immagine
@@ -53,6 +49,23 @@ export class ProfilePageComponent implements OnInit {
       this.click = !this.click;
     }
 
+    private getAccount(){
+      this.profileService.fetchAccounts().subscribe(
+        responseProfiles => {
+          for(let profile of responseProfiles){
+            if(profile.id === this.idProfilo){
+              console.log('profilo trovato');
+              this.profilo = profile;
+              this.loadingProfile = true;
+              break;
+            }
+          }
+          if(this.profilo === undefined){
+            console.log('profilo non trovato');
+          }
+        }
+      )
+    }
 
 
 }

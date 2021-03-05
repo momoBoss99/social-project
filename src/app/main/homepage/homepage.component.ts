@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';
-import ProfilesService from '../profiles.service';
+import { AccountsService } from '../accounts.service';
 
 @Component({
   selector: 'app-homepage',
@@ -19,9 +19,8 @@ export class HomepageComponent implements OnInit {
    * lavoro con due vettori paralleli, uno dei post e uno dei profili.
    */
   posts: Post[];
-  //mappaProfiloPost: Map<Profile, Post[]> = new Map();
   profiles: Profile[] = [];
-  constructor(private profileService: ProfilesService) { }
+  constructor(private profileService: AccountsService) { }
 
   ngOnInit(): void {
     this.fetchPostsInit();
@@ -32,7 +31,7 @@ export class HomepageComponent implements OnInit {
    * get di tutti i post
    */
   private fetchPostsInit(){
-    this.profileService.onFetchPosts(1).subscribe(
+    this.profileService.fetchPosts().subscribe(
       postsResponse => {
         this.posts = postsResponse;
         this.riempiProfili(this.posts);
@@ -43,12 +42,8 @@ export class HomepageComponent implements OnInit {
   private riempiProfili(posts: Post[]){
     for(let post of posts){
       let profilo: Profile;
-      this.profileService.fetchAccount(post.idProfile).subscribe(
-        responseProfile => {
-          profilo = responseProfile;
-          this.profiles.push(profilo);
-        }
-      )
+      //profilo = this.profileService.fetchAccount(post.idProfile);
+      this.profiles.push(profilo);
     }
     console.log(this.profiles);
   }

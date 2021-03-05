@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { AccountsService } from "../accounts.service";
 import ProfilesService from "../profiles.service";
 
 /**
@@ -15,7 +16,7 @@ import ProfilesService from "../profiles.service";
 export class SearchProfilesComponent implements OnInit {
     daCercare: string;
     inizioNomeDaCercare = 17;
-    constructor(private profilesService: ProfilesService, private route: Router){}
+    constructor(private profilesService: AccountsService, private route: Router){}
     /**
      * prendo il nome del profilo da ricercare dall'url,
      * faccio la richiesta al back-end dei profili che hanno nickname simile a 

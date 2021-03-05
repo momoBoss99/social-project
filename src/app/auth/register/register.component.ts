@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthLocalStorage } from '../auth-local-storage.service';
-import { AuthResponseData, AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +10,6 @@ import { AuthResponseData, AuthService } from '../auth.service';
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('f') registraForm: NgForm;
-  authObs: Observable<AuthResponseData>;
 
 
   constructor(private authService: AuthLocalStorage, private router: Router) { }
@@ -37,16 +34,6 @@ export class RegisterComponent implements OnInit {
     const password = this.registraForm.value.password;
     const nickname = this.registraForm.value.username;
     this.authService.signup(email, password, nickname);
-    /*
-    this.authObs = this.authService.signup(email, password);
-
-    this.authObs.subscribe(resData => {
-      console.log(resData);
-      this.router.navigate(['']);
-    }, errorMessage => {
-      console.log(errorMessage);
-    });
-    */
 
     this.registraForm.reset();
   }

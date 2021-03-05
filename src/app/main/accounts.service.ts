@@ -41,19 +41,27 @@ export class AccountsService {
      * metodo che ritorna direttamente il profilo cercato dato il 
      * suo id (proprietà)
      * @param id id del profilo da cercare nel DB
-     */
-    fetchAccount(id: string): Profile{
-        let profileSearched: Profile = null;
+    
+    fetchAccount(id: string): Profile {
+        let profileSearched: Profile;
+        
+        
         this.fetchAccounts().subscribe(responseProfiles => {
             for(let profile of responseProfiles){
                 if(profile.id === id){
+                    console.log('profilo trovato');
                     profileSearched = profile;
-                    return;
+                    console.log(profileSearched);
+                    return profileSearched;
                 }
             }
+            console.log('profilo non trovato');
         });
+        console.log(profileSearched);
         return profileSearched;
     }
+
+    */
     /**
      * FIXME
      * @param nameLike 
@@ -246,7 +254,22 @@ export class AccountsService {
     }
 
     /**
-     * FIXME
+     * metodo che effettua una delete dal database del like.
+     * subscription delegata al metodo chiamante
      */
-    removeLike(){}
+    removeLike(idPost: string, idSession: string){
+        let idLike = this.getIdLike(idPost, idSession);
+
+        return this.http.delete<Like>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes/${idLike}.json`
+        );
+    }
+    /**
+     * metodo ausiliario che dato un id del post e id utente,
+     * mi fornisce l'id del like nel database per poter
+     * effettuare una delete 
+     */
+    private getIdLike(idPost: string, idSession: string): string{
+        return null;
+    }
 }

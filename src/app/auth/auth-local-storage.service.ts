@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import ProfilesService from "../main/profiles.service";
+import { AccountsService } from "../main/accounts.service";
 import { Profile } from "../shared/profile.model";
 
 /**
@@ -15,7 +15,7 @@ import { Profile } from "../shared/profile.model";
 export class AuthLocalStorage {
     constructor(private http: HttpClient,
                 private router: Router,
-                private profilesService: ProfilesService){}
+                private profilesService: AccountsService){}
 
     /**
      * fake signup with localStorage
@@ -38,7 +38,8 @@ export class AuthLocalStorage {
         /**
          * creazione dell'utente nel database effettivo
          */
-        this.profilesService.onCreateAccount(new Profile(id, username, username, 0, 0, "perchè non aggiungi una biografia?", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", email));
+        this.profilesService.createAccount(new Profile(id.toString(), username, username, 0, 0, "perchè non aggiungi una biografia?", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", email));
+
         localStorage.setItem("utenti", JSON.stringify(users));
         console.log(JSON.parse(localStorage.getItem("utenti")));
     }

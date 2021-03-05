@@ -1,6 +1,8 @@
 <header>
-
-	<div class="container">
+	<div class="loading" *ngIf="!loadingProfile">
+		<p>loading...</p>
+	</div>
+	<div class="container" *ngIf="loadingProfile">
 
 		<div class="profile">
 

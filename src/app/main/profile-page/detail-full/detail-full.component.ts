@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Post } from "src/app/shared/post.model";
 import { Profile } from "src/app/shared/profile.model";
-import ProfilesService from "../../profiles.service";
+import { AccountsService } from "../../accounts.service";
 
 @Component({
     selector: 'app-detail-full',
@@ -12,19 +12,22 @@ import ProfilesService from "../../profiles.service";
 export class DetailFullComponent implements OnInit {
     profilo: Profile;
     post: Post;
-    idPost: number;
-    idProfilo: number;
+    idPost: string;
+    idProfilo: string;
 
 
-    constructor(private profilesService: ProfilesService, private route: Router){}
+    constructor(private profilesService: AccountsService, private route: Router){}
 
     ngOnInit(){
         this.getDati();
     }
 
     private getDati(){
-        this.idPost = parseInt(this.route.url.substring(16, this.route.url.length));
+        this.idPost = this.route.url.substring(16, this.route.url.length);
         console.log(this.idPost);
+        this.post = this.profilesService.fetchPost(this.idPost);
+        //this.profilo = this.profilesService.fetchAccount(this.post.idProfile);
+        /*
         this.profilesService.getPost(this.idPost).subscribe(
             responsePost => {
                 this.post = responsePost;
@@ -35,7 +38,6 @@ export class DetailFullComponent implements OnInit {
                     }
                 );
             }
-        );
+        );*/
     }
-
 }
