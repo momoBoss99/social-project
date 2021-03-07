@@ -5,6 +5,7 @@ import { map} from 'rxjs/operators';
 import { Post } from "../shared/post.model";
 import { Commento } from "../shared/commento.model";
 import { Like } from "../shared/like.model";
+import { pipe } from "rxjs";
 
 
 /**
@@ -37,31 +38,6 @@ export class AccountsService {
         )
     }
 
-    /**
-     * metodo che ritorna direttamente il profilo cercato dato il 
-     * suo id (proprietà)
-     * @param id id del profilo da cercare nel DB
-    
-    fetchAccount(id: string): Profile {
-        let profileSearched: Profile;
-        
-        
-        this.fetchAccounts().subscribe(responseProfiles => {
-            for(let profile of responseProfiles){
-                if(profile.id === id){
-                    console.log('profilo trovato');
-                    profileSearched = profile;
-                    console.log(profileSearched);
-                    return profileSearched;
-                }
-            }
-            console.log('profilo non trovato');
-        });
-        console.log(profileSearched);
-        return profileSearched;
-    }
-
-    */
     /**
      * FIXME
      * @param nameLike 
@@ -153,28 +129,6 @@ export class AccountsService {
         return postsSearched;
     }
     /**
-     * metodo che mi permette di fare una get di un singolo post dal DB
-     * per visuallizare il dettaglio del post
-     * @param idPost 
-    
-    fetchPost(idPost: string): Post{
-        let postSearched: Post = null;
-
-        this.fetchPosts().subscribe(
-            responsePosts => {
-                for(let post of responsePosts){
-                    if(post.idPost === idPost){
-                        postSearched = post;
-                        return;
-                    }
-                }
-            }
-        )
-
-        return postSearched;
-    }
-    */
-    /**
      * metodo che mi permette di aggiungere un commento ad un post.
      * Subscription delegata al chiamante
      * @param commento body chiamata HTTP
@@ -185,38 +139,31 @@ export class AccountsService {
             commento
         );
     }
+
+
     /**
-     * metodo che ritorna tutti i commenti relativi ad un post 
-     * dato l'id del post.
-     * @param idPost 
+     * metodo che ritorna tutti i commenti presenti nel db.
+     * subscribe da invocare.
      */
-    fetchComments(idPost: string): Commento[]{
+    fetchComments(){
         let comments: Commento[] = [];
 
-        this.http.get<Commento[]>(
+        return this.http.get<Commento[]>(
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/comments.json`
         ).pipe(
             map(responseComments => {
+                const arrayComments: Commento[] = [];
                 /**
                  * operazione di filtraggio dei commenti
                  */
                 for(const key in responseComments){
                     if(responseComments.hasOwnProperty(key)){
-                        let comment: Commento = {...responseComments[key]};
-                        if(comment.idPost === idPost){
-                            comments.push(comment);
-                        }
+                        arrayComments.push({...responseComments[key]});
                     }
                 }
-                return comments;
+                return arrayComments;
             })
-        ).subscribe(comments => {
-            comments = comments;
-        }, error => {
-            console.log(error);
-        });
-
-        return comments;
+        );
     }
 
     /**
@@ -255,18 +202,8 @@ export class AccountsService {
      * subscription delegata al metodo chiamante
      */
     removeLike(idPost: string, idSession: string){
-        let idLike = this.getIdLike(idPost, idSession);
-
-        return this.http.delete<Like>(
-            `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes/${idLike}.json`
+        return this.http.get<Like[]>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes.json`
         );
-    }
-    /**
-     * metodo ausiliario che dato un id del post e id utente,
-     * mi fornisce l'id del like nel database per poter
-     * effettuare una delete 
-     */
-    private getIdLike(idPost: string, idSession: string): string{
-        return null;
     }
 }

@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { Commento } from "src/app/shared/commento.model";
 import { Like } from "src/app/shared/like.model";
@@ -35,7 +36,7 @@ export class PostCardComponent implements OnInit {
     commento: string;
     commentoInviato: boolean = false;
 
-    constructor(private profilesService: AccountsService){}
+    constructor(private profilesService: AccountsService, private http: HttpClient){}
 
     ngOnInit(){
         this.loadingComment = false;
@@ -49,16 +50,8 @@ export class PostCardComponent implements OnInit {
     onSubmit(){
         this.commentoInviato = true;
         this.loadingComment = false;
-        let idNuovoCommento: number;
-        let idCommentatore: string = JSON.parse(localStorage.getItem("sessione")).id;
+        let idCommentatore: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
 
-        if(this.commenti){
-            console.log('è definito');
-        }
-        else {
-            console.log('non è definito')
-            idNuovoCommento = 0;
-        }
 
         this.profilesService.createComment(new Commento(this.commento, new Date(Date.now()), this.profilo.id, this.post.idPost, idCommentatore)).subscribe(
             responseData => {
@@ -78,17 +71,30 @@ export class PostCardComponent implements OnInit {
      * e fa un filtraggio per ottenere solo i commenti relativi al post
      */
     private getAndFiltraCommenti(){
-        this.commenti = this.profilesService.fetchComments(this.post.idPost);
-        /**
-         * ho bisogno di un vettore parallelo di profili di commentatori 
-         * al vettore di commenti
-         */
-        /*
-        for(let commento of this.commenti){
-            this.profiliCommentatori
-                    .push(this.profilesService.fetchAccount(commento.idCommentatore));
-        }
-        */
+        this.profilesService.fetchComments().subscribe(
+            responseComments => {
+                for(let comment of responseComments){
+                    if(comment.idPost === this.post.idPost){
+                        this.commenti.push(comment);
+                        this.getAccount(comment.idCommentatore);
+                    }
+                }
+            }
+        );
+        
+    }
+
+    private getAccount(idCommentatore: string){
+        this.profilesService.fetchAccounts().subscribe(
+            responseProfiles => {
+                for(let profile of responseProfiles){
+                    if(profile.id === idCommentatore){
+                        this.profiliCommentatori.push(profile);
+                        break;
+                    }
+                }
+            }
+        );
     }
     /**
      * metodo privato che mi permette di prendere tutti i like e poi
@@ -111,35 +117,55 @@ export class PostCardComponent implements OnInit {
             }
         );
     }
-    /**
-     * se c'è già il like, viene aggiunto, altrimenti viene tolto
-     */
-    onToggleLike(){
-        console.log('like toggled');
-        console.log(this.likeCheck());
-        let idSession = JSON.parse(localStorage.getItem("sessione")).id;
-        /**
-         * se il like era già presente, lo rimuovo
-         */
-        if(this.likeCheck()){
-            console.log('rimozione like');
-            this.profilesService.removeLike(this.post.idPost, idSession).subscribe(response => {
-                console.log(response);
-            })
-        }
-        /**
-         * altrimenti, aggiungo il like
-         */
-        else{
-            console.log('aggiunta like');
-            this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(
-                responseData => {
-                    console.log(responseData);
-                }
-            );
-        }
-    }
 
+    onToggleLikeTest(){
+        let isPresent: boolean = false;
+        let idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
+        /**
+         * step 1: like check
+         */
+        this.profilesService.getLikes().subscribe(
+            responseLikes => {
+                for(let like of responseLikes){
+                    if(like.idPost === this.post.idPost){
+                        if(like.idProfileLiker === idSession){
+                            /**
+                             * like presente => rimozione like
+                             */
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                }
+                isPresent ? 
+                /**
+                 * logica necessaria a cancellare il like e ristampare
+                 * tutti i likes
+                 */
+                this.profilesService.removeLike(this.post.idPost, idSession).subscribe(responseLikes => {
+                    const likeArray: Like[] = [];
+                    for(const key in responseLikes){
+                        if(responseLikes.hasOwnProperty(key)){
+                            likeArray.push({...responseLikes[key]});
+                            if(responseLikes[key].idPost === this.post.idPost){
+                                if(responseLikes[key].idProfileLiker  === idSession){
+                                    console.log("like trovato");
+                                    this.http.delete<Like>(
+                                        `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes/${key}.json`
+                                    ).subscribe(response => {
+                                        this.getAndFiltraLikes();
+                                    });
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    return likeArray;
+                }) : 
+                this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(response => this.getAndFiltraLikes());
+            }
+        );
+    }
     /**
      * metodo che verifica se il like a questo preciso post da parte
      * della persona loggata in questione è presente o meno
@@ -148,6 +174,7 @@ export class PostCardComponent implements OnInit {
         let response: boolean = false;
         this.profilesService.getLikes().subscribe(
             responseLikes => {
+                console.log(responseLikes);
                 /**
                  * nessuno ha mai messo dei likes!
                  */
@@ -157,7 +184,7 @@ export class PostCardComponent implements OnInit {
                 for (let like of responseLikes) {
                     if (like.idPost === this.post.idPost) {
                         let idSession = JSON.parse(localStorage.getItem("sessione")).id;
-                        if (parseInt(like.idProfileLiker) === idSession) {
+                        if (like.idProfileLiker === idSession) {
                             /**
                              * tutti i check sono okay, il like c'è già
                              */
@@ -167,6 +194,7 @@ export class PostCardComponent implements OnInit {
                         }
                     }
                 }
+                console.log('like non cera');
                 response = false;
                 return false;
             }
