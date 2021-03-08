@@ -17,6 +17,7 @@ export class ProfilePageComponent implements OnInit {
   profilo: Profile;
   idProfilo: string;
   posts: Post[] = [];
+  followers: Follow[] = [];
   loadingProfile: boolean = false;
   loadingPosts: boolean = false;
   myProfile: boolean = false;
@@ -30,6 +31,7 @@ export class ProfilePageComponent implements OnInit {
     this.getProfile();
     this.getPosts();
     this.followCheck();
+    this.getAndFiltraFollowers();
     }
     /**
      * prende il profilo dal DB
@@ -127,6 +129,7 @@ export class ProfilePageComponent implements OnInit {
                   console.log("follow trovato");
                   this.profileService.deleteFollow(key).subscribe(response => {
                     this.following = false;
+                    this.getAndFiltraFollowers();
                   })
                 }
             }
@@ -136,9 +139,23 @@ export class ProfilePageComponent implements OnInit {
       else {
         this.profileService.addFollow(new Follow(new Date(Date.now()), this.idSession, this.idProfilo)).subscribe(response => {
           this.following = true;
+          this.getAndFiltraFollowers();
         })
       }
-      this.following = !this.following;
     }
 
+
+    /**
+     * metodo che mi permette di aggiornare la view dei followers 
+     */
+    private getAndFiltraFollowers(){
+      this.profileService.getFollows().subscribe(responseFollows => {
+        this.followers = [];
+        for(let follow of responseFollows){
+          if(follow.idFollowed === this.idProfilo){
+            this.followers.push(follow);
+          }
+        }
+      });
+    }
 }
