@@ -6,6 +6,7 @@ import { Post } from "../shared/post.model";
 import { Commento } from "../shared/commento.model";
 import { Like } from "../shared/like.model";
 import { pipe } from "rxjs";
+import { Follow } from "../shared/follow.model";
 
 
 /**
@@ -206,4 +207,51 @@ export class AccountsService {
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes.json`
         );
     }
+    /**
+     * metodo che prepara la chiamata http per effettuare un follow 
+     * @param follow 
+     * @returns observable su cui effettuare la subscription
+     */
+    addFollow(follow: Follow){
+        return this.http.post<Follow>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/follows.json`,
+            follow
+        );
+    }
+    /**
+     * metodo che raccoglie tutti i follow del db, 
+     * su cui dovrò poi fare la subscribe
+     */
+    getFollows(){
+        return this.http.get<Follow[]>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/follows.json`
+        ).pipe(
+            map(responseFollows => {
+                const followsArray: Follow[] = [];
+                for(const key in responseFollows){
+                    if(responseFollows.hasOwnProperty(key)){
+                        followsArray.push({...responseFollows[key]});
+                    }
+                }
+                return followsArray;
+            })
+        );
+    }
+    /**
+     * 
+     * @returns observable su cui fare la subscription.
+     * utilizzato principalmente per rimuovere il follow
+     */
+    fetchFollows(){
+        return this.http.get<Follow[]>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/follows.json`
+        );
+    }
+
+    deleteFollow(idFollow: string){
+        return this.http.delete<Follow>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/follows/${idFollow}.json`
+        );
+    }
+
 }
