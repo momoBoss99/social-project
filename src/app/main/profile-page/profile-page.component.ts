@@ -17,6 +17,7 @@ export class ProfilePageComponent implements OnInit {
   idProfilo: string;
   posts: Post[] = [];
   followers: Follow[] = [];
+  follows: Follow[] = [];
   loadingProfile: boolean = false;
   loadingPosts: boolean = false;
   myProfile: boolean = false;
@@ -150,9 +151,13 @@ export class ProfilePageComponent implements OnInit {
     private getAndFiltraFollowers(){
       this.profileService.getFollows().subscribe(responseFollows => {
         this.followers = [];
+        this.follows = [];
         for(let follow of responseFollows){
           if(follow.idFollowed === this.idProfilo){
             this.followers.push(follow);
+          }
+          else if(follow.idFollower === this.idProfilo){
+            this.follows.push(follow);
           }
         }
       });
