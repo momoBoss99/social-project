@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ignoreElements } from 'rxjs/operators';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';
 import { AccountsService } from '../accounts.service';
@@ -16,6 +17,7 @@ export class ProfilePageComponent implements OnInit {
   posts: Post[] = [];
   loadingProfile: boolean = false;
   loadingPosts: boolean = false;
+  myProfile: boolean = false;
   click: boolean = false;
 
   constructor(private profileService: AccountsService,
@@ -64,12 +66,23 @@ export class ProfilePageComponent implements OnInit {
     onOpenModalPost(){
       this.click = !this.click;
     }
-
+    /**
+     * qui faccio il check dell'account: se è il mio, comparirà la possibilità di modificare il profilo.
+     * altrimenti, potrò fare il follow
+     */
     private getAccount(){
       this.profileService.fetchAccounts().subscribe(
         responseProfiles => {
           for(let profile of responseProfiles){
             if(profile.id === this.idProfilo){
+              /**
+               * qui faccio il check:
+               */
+              let idSession = JSON.parse(localStorage.getItem("sessione")).id.toString();
+              if(this.idProfilo === idSession){
+                this.myProfile = true;
+                console.log(this.myProfile);
+              }
               console.log('profilo trovato');
               this.profilo = profile;
               this.loadingProfile = true;
