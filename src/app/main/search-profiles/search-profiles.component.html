@@ -1,13 +1,13 @@
 <div class="container">
-    <div class="media">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" class="mr-3" alt="..." width="64px" height="64px">
+    <div class="media" *ngFor="let profile of profiles">
+        <img src={{profile.proPic}} class="mr-3" alt="..." width="64px" height="64px">
         <div class="media-body">
           <a 
                 class="username-link" 
-                [routerLink]="['/profiles']">
+                [routerLink]="['/profiles', profile.id]">
                 
-            <h5 class="mt-0">Risultato Ricerca 1</h5></a>
-          Qui dovrebbero essere visualizzati i risultati della ricerca
+            <h5 class="mt-0">{{profile.nickname}}</h5></a>
+          {{profile.biografia}}
         </div>
       </div>
 </div>

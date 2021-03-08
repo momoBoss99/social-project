@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../accounts.service";
 import ProfilesService from "../profiles.service";
 
@@ -16,6 +17,7 @@ import ProfilesService from "../profiles.service";
 export class SearchProfilesComponent implements OnInit {
     daCercare: string;
     inizioNomeDaCercare = 17;
+    profiles: Profile[] = [];
     constructor(private profilesService: AccountsService, private route: Router){}
     /**
      * prendo il nome del profilo da ricercare dall'url,
@@ -29,7 +31,11 @@ export class SearchProfilesComponent implements OnInit {
         /**
          * chiamata al backend
          */
-        this.profilesService.fetchAccountsSearch(this.daCercare);
-
+        this.profilesService.fetchAccountsSearch(this.daCercare).subscribe(
+            responseProfiles => {
+                this.profiles = responseProfiles;
+            }
+        );
     }
+
 }

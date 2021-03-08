@@ -44,6 +44,7 @@ export class AccountsService {
      * @param nameLike 
      */
     fetchAccountsSearch(nameLike: string){
+        return this.fetchAccounts();
     }
     /**
      * metodo che mi permette di salvare un nuovo profilo nel DB
