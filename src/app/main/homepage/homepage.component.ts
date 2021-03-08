@@ -33,6 +33,11 @@ export class HomepageComponent implements OnInit {
   private fetchPostsInit(){
     this.profileService.fetchPosts().subscribe(
       postsResponse => {
+        postsResponse = postsResponse.sort((a: Post, b: Post) => {
+          let res = new Date(b.dataPost).getDate() - 
+          new Date(a.dataPost).getTime();
+          return res;
+        });
         this.posts = postsResponse;
         this.riempiProfili(this.posts);
       }

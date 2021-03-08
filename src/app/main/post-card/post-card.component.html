@@ -1,4 +1,5 @@
-<div class="col-12" >
+<div class="loading" *ngIf="!loadingComment">loading...</div>
+<div class="col-12" *ngIf="loadingComment">
     <div class="contents">
         <div class="hidden">
             <svg id="dots" viewBox="0 0 48 48">
@@ -6,7 +7,8 @@
                 <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
                 <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
             </svg>
-        
+
+
             <svg id="like" viewBox="0 0 48 48">
                 <path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
             </svg>
@@ -36,11 +38,11 @@
         
         <article class="instapost">
             <header class="instapost__header">
-                <a class="profile-img" href="https://www.instagram.com/gabormolnar92/" target="_blank">
-                    <img *ngIf="profilo" [src]="[profilo.proPic]" alt="gabormolnar92" />
+                <a class="profile-img" [routerLink]="['/profiles', profilo.id]">
+                    <img *ngIf="profilo" [src]="[profilo.proPic]" />
                 </a>
-                <div class="profile-name">
-                    <a *ngIf="profilo" class="user instalink" href="https://www.instagram.com/gabormolnar92/" target="_blank">
+                <div class="profile-name" >
+                    <a *ngIf="profilo" class="user instalink" [routerLink]="['/profiles', profilo.id]" >
                         {{profilo.nickname}}
                     </a>
                     <a class="location" href="https://www.instagram.com/explore/locations/55389054/debrecen/" target="_blank">Turin, Italy</a>
@@ -96,19 +98,20 @@
                 </button>
             </section>
             <section class="instapost__likes">
-                Piace a <a class="instalink" target="_blank">margamonte</a> e <a *ngIf="post" class="instalink" href="" target="_blank">altri {{ likesAlPost.length}}</a>
+                Piace a <a class="instalink" >margamonte</a> e <a *ngIf="post" class="instalink" >altri {{ likesAlPost.length}}</a>
             </section>
             <section *ngIf="profilo" class="instapost__description">
-                <a class="user instalink" target="_blank">
+                <a class="user instalink" [routerLink]="['/profiles', profilo.id]">
                         {{profilo.nickname}}
                     </a> {{post.descrizione}}
             </section>
             <!--<a class="instapost__comment-list" href="#">
                 Vedi tutti gli 817 commenti
             </a>-->
-            <section class="instapost__description" *ngIf="commenti.length > 0">
+            <div class="loading" *ngIf="!loadingComment">loading...</div>
+            <section class="instapost__description" *ngIf="loadingComment">
                 <div *ngFor="let commento of commenti; let i = index">
-                    <a class="user instalink" target="_blank">
+                    <a class="user instalink" [routerLink]="['/profiles', profiliCommentatori[i].id]">
                         {{profiliCommentatori[i].nickname}}
                     </a> <span>{{commento.comment}}</span>
                 </div>

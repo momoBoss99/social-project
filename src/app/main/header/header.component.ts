@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthLocalStorage } from 'src/app/auth/auth-local-storage.service';
 
 @Component({
   selector: 'app-header-component',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
   idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
 
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthLocalStorage,private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -23,4 +24,8 @@ export class HeaderComponent implements OnInit {
     this.searchForm.reset();
   }
 
+  onLogout(){
+    this.authService.logout();
+    this.router.navigate(['']);
+  }
 }

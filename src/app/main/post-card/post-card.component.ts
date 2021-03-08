@@ -30,6 +30,7 @@ export class PostCardComponent implements OnInit {
     likesAlPost: Like[] = [];
     loadingComment: boolean = false;
     loadingLikes: boolean = false;
+    isLiked: boolean = false;
     /**
      * variabile modificata dinamicamente dall'input nel component HTML
      */
@@ -59,6 +60,7 @@ export class PostCardComponent implements OnInit {
                 /**
                  * aggiornamento dinamico dei commenti
                  */
+                this.commento = "";
                 this.getAndFiltraCommenti();
             }
         , error => {
@@ -79,6 +81,7 @@ export class PostCardComponent implements OnInit {
                         this.getAccount(comment.idCommentatore);
                     }
                 }
+                this.loadingComment = true;
             }
         );
         
@@ -170,7 +173,7 @@ export class PostCardComponent implements OnInit {
      * metodo che verifica se il like a questo preciso post da parte
      * della persona loggata in questione è presente o meno
      */
-    async likeCheck(): Promise<boolean>{
+    likeCheck(): boolean{
         let response: boolean = false;
         this.profilesService.getLikes().subscribe(
             responseLikes => {
