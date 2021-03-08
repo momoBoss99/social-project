@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../../accounts.service";
 
@@ -15,7 +16,7 @@ export class UpdateProfileComponent implements OnInit{
     loadingProfile: boolean = false;
     idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
 
-    constructor(private profilesService: AccountsService){}
+    constructor(private profilesService: AccountsService, private router: Router){}
 
     ngOnInit(){
         this.getProfile();
@@ -35,6 +36,7 @@ export class UpdateProfileComponent implements OnInit{
                             /**
                              * navigazione al profilo
                              */
+                            this.router.navigate([`/profiles/${this.idSession}`]);
                         });
                         break;
                     }

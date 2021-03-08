@@ -9,7 +9,6 @@ import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SearchProfilesComponent } from './search-profiles/search-profiles.component';
-import { DetailPostComponent } from './profile-page/detail-post/detail-post.component';
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { AddPostComponent } from "./add-post/add-post.component";
@@ -22,7 +21,6 @@ import { UpdateProfileComponent } from "./profile-page/update-profile/update-pro
         HomepageComponent,
         ProfilePageComponent,
         SearchProfilesComponent,
-        DetailPostComponent,
         DetailFullComponent,
         PostCardComponent,
         AddPostComponent,

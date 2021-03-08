@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../accounts.service";
-import ProfilesService from "../profiles.service";
 
 /**
  * estrarre in un altro componente

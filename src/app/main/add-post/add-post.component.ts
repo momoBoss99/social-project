@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { Post } from "src/app/shared/post.model";
 import { AccountsService } from "../accounts.service";
 import { UUID } from 'angular2-uuid';
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-add-post',
@@ -12,7 +13,7 @@ import { UUID } from 'angular2-uuid';
 export class AddPostComponent implements OnInit {
     @ViewChild('f') addPostForm: NgForm;
     id;
-    constructor(private profilesService: AccountsService){}
+    constructor(private profilesService: AccountsService, private router: Router){}
 
     ngOnInit(){}
 
@@ -31,6 +32,7 @@ export class AddPostComponent implements OnInit {
                                         new Date(Date.now()), idSessione)).subscribe(
             response => {
                 console.log(response);
+                this.router.navigate([`/profiles/${idSessione}`]);
             }
         );
     }

@@ -61,13 +61,6 @@
 
 			<div class="wrapper" *ngFor="let post of posts">
 				<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
-
-					<!--<app-detail-post 
-									*ngIf="click"
-									[src]="post.urlImg"
-									[idPost]="post.idPost">
-					</app-detail-post>-->
-					
 					<img src={{post.urlImg}} class="gallery-image" alt="">
 	
 					<div class="gallery-item-info">
