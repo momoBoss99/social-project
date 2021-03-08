@@ -6,6 +6,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
+import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
         { path: '', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
         { path: 'edit/post', component: AddPostComponent},
+        { path: 'edit/profile', component: UpdateProfileComponent},
         { path: 'search/:name', component: SearchProfilesComponent},
         { path: 'posts/:id', component: DetailFullComponent},
         /**

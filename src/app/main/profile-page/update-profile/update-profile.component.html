@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="loading" *ngIf="!loadingProfile">loading...</div>
+            <form *ngIf="loadingProfile" (ngSubmit)="onSumbit()" #f="ngForm">
+                <h3>Nuovo Nickname:</h3>
+                <input 
+                        type="text"
+                        class="form-control"
+                        name="nickname"
+                        ngModel>
+                <h3>Nuovo Nome:</h3>
+                <input 
+                        type="text"
+                        class="form-control"
+                        name="nome"
+                        ngModel>
+                <h3>Nuova Biografia:</h3>
+                <input 
+                        type="text" 
+                        class="form-control"
+                        name="biografia"
+                        ngModel>
+                <h3>Nuova Propic:</h3>
+                <input 
+                        type="text" 
+                        class="form-control"
+                        name="proPic"
+                        ngModel>
+                
+                <button 
+                        type="submit"
+                        class="btn btn-primary">
+                    modifica
+                </button>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>

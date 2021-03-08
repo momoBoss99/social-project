@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ignoreElements } from 'rxjs/operators';
 import { Follow } from 'src/app/shared/follow.model';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';

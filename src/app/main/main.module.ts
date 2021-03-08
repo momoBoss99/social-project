@@ -13,6 +13,7 @@ import { DetailPostComponent } from './profile-page/detail-post/detail-post.comp
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { AddPostComponent } from "./add-post/add-post.component";
+import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { AddPostComponent } from "./add-post/add-post.component";
         DetailPostComponent,
         DetailFullComponent,
         PostCardComponent,
-        AddPostComponent
+        AddPostComponent,
+        UpdateProfileComponent
     ],
     imports: [
         RouterModule,

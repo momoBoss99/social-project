@@ -60,6 +60,28 @@ export class AccountsService {
         })
     }
     /**
+     * metodo che prepara la get di tutti i profili del db
+     * @returns 
+     */
+    prepareUpdateAccount(){
+        return this.http.get<Profile[]>(
+            'https://insta-clone-7660e-default-rtdb.firebaseio.com/profiles.json'
+        );
+    }
+    /**
+     * metodo che prepara la chiamata http di tipo put per effettuare
+     * l'update del profilo
+     * @param idProfile 
+     * @param profile 
+     * @returns 
+     */
+    updateAccount(idProfile: string, profile: Profile){
+        return this.http.put<Profile>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/profiles/${idProfile}.json`,
+            profile
+        );
+    }
+    /**
      * metodo che mi permette di creare un post e memorizzarlo
      * nel db. subscribe delegata al chiamante
      * @param post 
