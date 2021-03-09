@@ -104,7 +104,7 @@
                 </button>
             </section>
             <section class="instapost__likes">
-                Piace a <a class="instalink" >margamonte</a> e <a *ngIf="post" class="instalink" >altri {{ likesAlPost.length}}</a>
+                Piace a <a class="instalink" >margamonte</a> e <a *ngIf="post" class="instalink" (click)="viewLikesList()">altri {{ likesAlPost.length}}</a>
             </section>
             <section *ngIf="profilo" class="instapost__description">
                 <a class="user instalink" [routerLink]="['/profiles', profilo.id]">

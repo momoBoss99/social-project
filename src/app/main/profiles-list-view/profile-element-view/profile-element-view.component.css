@@ -1,0 +1,12 @@
+.container {
+    padding-top: 2em;
+}
+
+.username-link{
+    cursor: pointer;
+    color: black;
+}
+
+.media{
+    padding-top: 1em;
+}

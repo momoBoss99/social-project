@@ -13,6 +13,8 @@ import { DetailFullComponent } from "./profile-page/detail-full/detail-full.comp
 import { PostCardComponent } from "./post-card/post-card.component";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
+import { ProfileElementViewComponent } from "./profiles-list-view/profile-element-view/profile-element-view.component";
+import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { UpdateProfileComponent } from "./profile-page/update-profile/update-pro
         DetailFullComponent,
         PostCardComponent,
         AddPostComponent,
-        UpdateProfileComponent
+        UpdateProfileComponent,
+        ProfileElementViewComponent,
+        ProfilesListViewComponent
     ],
     imports: [
         RouterModule,

@@ -7,6 +7,7 @@ import { MainComponent } from "./main.component";
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
+import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
 const routes: Routes = [
@@ -15,6 +16,9 @@ const routes: Routes = [
             children: [
         { path: '', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
+        { path: 'list/likes/:idpost', component: ProfilesListViewComponent},
+        { path: 'list/followers/:idprofile', component: ProfilesListViewComponent},
+        { path: 'list/follows/:idprofiles', component: ProfilesListViewComponent},
         { path: 'edit/post', component: AddPostComponent},
         { path: 'edit/profile', component: UpdateProfileComponent},
         { path: 'search/:name', component: SearchProfilesComponent},

@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Commento } from "src/app/shared/commento.model";
 import { Like } from "src/app/shared/like.model";
 import { Post } from "src/app/shared/post.model";
@@ -38,7 +39,7 @@ export class PostCardComponent implements OnInit {
     commento: string;
     commentoInviato: boolean = false;
 
-    constructor(private profilesService: AccountsService, private http: HttpClient){}
+    constructor(private profilesService: AccountsService, private http: HttpClient, private router: Router){}
 
     ngOnInit(){
         this.loadingComment = false;
@@ -180,5 +181,10 @@ export class PostCardComponent implements OnInit {
                 });
             }
         );
+    }
+
+
+    viewLikesList(){
+        this.router.navigate(['/profiles/list/likes', this.post.idPost]);
     }
 }   
