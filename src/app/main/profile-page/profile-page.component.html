@@ -29,7 +29,7 @@
 
 				<ul>
 					<li><span class="profile-stat-count">{{posts.length}}</span> post</li>
-					<li><span class="profile-stat-count">{{followers.length}}</span> followers</li>
+					<li (click)="viewFollowersList()"><span class="profile-stat-count">{{followers.length}}</span> followers</li>
 					<li><span class="profile-stat-count">{{follows.length}}</span> following</li>
 				</ul>
 

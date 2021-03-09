@@ -61,7 +61,7 @@ export class ProfilesListViewComponent implements OnInit {
                 this.getLikes();
                 break;
             case ListMode.followersProfilo: 
-                //fixme
+                this.getFollowers();
                 break;
             case ListMode.followingProfilo: 
                 //fixme
@@ -71,7 +71,9 @@ export class ProfilesListViewComponent implements OnInit {
                 break;
         }
     }
-
+    /**
+     * metodo che mi permette di raccogliere i profili che hanno messo like al post
+     */
     private getLikes(){
         let startId: number = 21;
         let idPost: string = this.router.url.substring(startId, this.router.url.length);
@@ -93,12 +95,30 @@ export class ProfilesListViewComponent implements OnInit {
                     }
                 )
             }
-        )
+        );
+    }
 
-        this.profilesService.getLikes().subscribe(responseLikes =>{
-            for(let like of responseLikes){
+    private getFollowers(){
+        let startId: number = 25;
+        let idProfile: string = this.router.url.substring(startId, this.router.url.length);
+        console.log(idProfile);
 
-            }
+        this.profilesService.fetchAccounts().subscribe(responseAccounts => {
+            this.profilesService.getFollows().subscribe(responseFollows => {
+                for(let profile of responseAccounts){
+                    for(let follow of responseFollows){
+                        if(profile.id === follow.idFollower && idProfile === follow.idFollowed){
+                            this.profiles.push(profile);
+                        }
+                    }
+                }
+                this.loadingProfiles = true;
+                console.log(this.profiles);
+            })
         })
+    }
+
+    private getFollowing(){
+
     }
 }

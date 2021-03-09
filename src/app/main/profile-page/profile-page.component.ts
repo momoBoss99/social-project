@@ -162,4 +162,8 @@ export class ProfilePageComponent implements OnInit {
         }
       });
     }
+
+    viewFollowersList(){
+      this.router.navigate(['/profiles/list/followers', this.idProfilo]);
+    }
 }

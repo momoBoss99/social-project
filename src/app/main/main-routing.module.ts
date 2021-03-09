@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "../auth/auth.guard";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
@@ -23,9 +22,6 @@ const routes: Routes = [
         { path: 'edit/profile', component: UpdateProfileComponent},
         { path: 'search/:name', component: SearchProfilesComponent},
         { path: 'posts/:id', component: DetailFullComponent},
-        /**
-         * aggiungere gli altri path
-         */
     ]}
 ];
 
