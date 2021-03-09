@@ -166,4 +166,8 @@ export class ProfilePageComponent implements OnInit {
     viewFollowersList(){
       this.router.navigate(['/profiles/list/followers', this.idProfilo]);
     }
+
+    viewFollowingList(){
+      this.router.navigate(['/profiles/list/follows', this.idProfilo]);
+    }
 }

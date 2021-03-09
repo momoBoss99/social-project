@@ -64,7 +64,7 @@ export class ProfilesListViewComponent implements OnInit {
                 this.getFollowers();
                 break;
             case ListMode.followingProfilo: 
-                //fixme
+                this.getFollowing();
                 break;
             default:
                 console.log('errore');
@@ -114,11 +114,27 @@ export class ProfilesListViewComponent implements OnInit {
                 }
                 this.loadingProfiles = true;
                 console.log(this.profiles);
-            })
-        })
+            });
+        });
     }
 
     private getFollowing(){
+        let startId: number = 23;
+        let idProfile: string = this.router.url.substring(startId, this.router.url.length);
+        console.log(idProfile);
 
+        this.profilesService.fetchAccounts().subscribe(responseAccounts => {
+            this.profilesService.getFollows().subscribe(responseFollows => {
+                for(let profile of responseAccounts){
+                    for(let follow of responseFollows){
+                        if(profile.id === follow.idFollower && idProfile === follow.idFollowed){
+                            this.profiles.push(profile);
+                        }
+                    }
+                }
+                this.loadingProfiles = true;
+                console.log(this.profiles);
+            });
+        });
     }
 }
