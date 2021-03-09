@@ -31,6 +31,7 @@ export class PostCardComponent implements OnInit {
     loadingComment: boolean = false;
     loadingLikes: boolean = false;
     isLiked: boolean = false;
+    idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
     /**
      * variabile modificata dinamicamente dall'input nel component HTML
      */
@@ -109,13 +110,15 @@ export class PostCardComponent implements OnInit {
         this.profilesService.getLikes().subscribe(
             likesResponse => {
                 this.likesAlPost = [];
+                this.isLiked = false;
                 /**
                  * operazione di filtraggio dei likes
                  */
                 for(let like of likesResponse){
                     if(like.idPost === this.post.idPost){
                         this.likesAlPost.push(like);
-                        if(like.idProfileLiker === this.profilo.id){
+                        if(like.idProfileLiker === this.idSession){
+                            console.log('cuoricino pieno');
                             this.isLiked = true;
                         }
                     }
@@ -139,8 +142,8 @@ export class PostCardComponent implements OnInit {
                             /**
                              * like presente => rimozione like
                              */
+                            console.log('like presente dal principio');
                             isPresent = true;
-                            this.isLiked = false;
                             break;
                         }
                     }
@@ -161,6 +164,7 @@ export class PostCardComponent implements OnInit {
                                     this.http.delete<Like>(
                                         `https://insta-clone-7660e-default-rtdb.firebaseio.com/likes/${key}.json`
                                     ).subscribe(response => {
+                                        console.log("rimozione like");
                                         this.getAndFiltraLikes();
                                     });
                                     break;
@@ -171,8 +175,8 @@ export class PostCardComponent implements OnInit {
                     return likeArray;
                 }) : 
                 this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(response => {
-                    this.isLiked = true;
-                    this.getAndFiltraLikes()
+                    console.log("aggiunta like");
+                    this.getAndFiltraLikes();
                 });
             }
         );
