@@ -101,7 +101,8 @@ export class PostCardComponent implements OnInit {
     }
     /**
      * metodo privato che mi permette di prendere tutti i like e poi
-     * filtrare prendendo solo quelli relativi a questo post
+     * filtrare prendendo solo quelli relativi a questo post, e inoltre setta il valore 
+     * di isLiked
      */
     private getAndFiltraLikes(){
         this.loadingLikes = false;
@@ -114,6 +115,9 @@ export class PostCardComponent implements OnInit {
                 for(let like of likesResponse){
                     if(like.idPost === this.post.idPost){
                         this.likesAlPost.push(like);
+                        if(like.idProfileLiker === this.profilo.id){
+                            this.isLiked = true;
+                        }
                     }
                 }
                 this.loadingLikes = true;
@@ -136,6 +140,7 @@ export class PostCardComponent implements OnInit {
                              * like presente => rimozione like
                              */
                             isPresent = true;
+                            this.isLiked = false;
                             break;
                         }
                     }
@@ -165,43 +170,11 @@ export class PostCardComponent implements OnInit {
                     }
                     return likeArray;
                 }) : 
-                this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(response => this.getAndFiltraLikes());
+                this.profilesService.addLike(new Like(new Date(Date.now()), this.post.idPost.toString(), idSession)).subscribe(response => {
+                    this.isLiked = true;
+                    this.getAndFiltraLikes()
+                });
             }
         );
-    }
-    /**
-     * metodo che verifica se il like a questo preciso post da parte
-     * della persona loggata in questione è presente o meno
-     */
-    likeCheck(): boolean{
-        let response: boolean = false;
-        this.profilesService.getLikes().subscribe(
-            responseLikes => {
-                console.log(responseLikes);
-                /**
-                 * nessuno ha mai messo dei likes!
-                 */
-                if (responseLikes.length === 0) {
-                    return false;
-                }
-                for (let like of responseLikes) {
-                    if (like.idPost === this.post.idPost) {
-                        let idSession = JSON.parse(localStorage.getItem("sessione")).id;
-                        if (like.idProfileLiker === idSession) {
-                            /**
-                             * tutti i check sono okay, il like c'è già
-                             */
-                            console.log('like cera');
-                            response = true;
-                            return true;
-                        }
-                    }
-                }
-                console.log('like non cera');
-                response = false;
-                return false;
-            }
-        )
-        return response;
     }
 }   
