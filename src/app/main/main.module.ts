@@ -38,7 +38,8 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         MainRoutingModule,
     ],
     exports: [
-        MainComponent
+        MainComponent,
+        HeaderComponent
     ]
 })
 export class MainModule {}

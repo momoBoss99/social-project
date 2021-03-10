@@ -11,6 +11,12 @@ const appRoutes: Routes = [
     loadChildren: () =>
         import('./main/main.module').then((m) => m.MainModule),
   },
+  {
+    path: 'chat',
+    loadChildren: () => 
+        import('./chat/chat.module').then((m) => m.ChatModule),
+  },
+
   { path: '**',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule)
   } //url not found route

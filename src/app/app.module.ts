@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { ChatModule } from './chat/chat.module';
 import { MainModule } from './main/main.module';
 
 
@@ -19,7 +20,8 @@ import { MainModule } from './main/main.module';
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
-    MainModule
+    MainModule,
+    ChatModule
   ],
   providers: [],
   bootstrap: [AppComponent]
