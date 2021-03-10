@@ -1,5 +1,5 @@
-<div class="loading" *ngIf="!loadingComment">loading...</div>
-<div class="col-12" *ngIf="loadingComment">
+<!--<div class="loading" >loading...</div>-->
+<div class="col-12" >
     <div class="contents">
         <div class="hidden">
             <svg id="dots" viewBox="0 0 48 48">
@@ -41,8 +41,8 @@
         
         <article class="instapost">
             <header class="instapost__header">
-                <a class="profile-img" [routerLink]="['/profiles', profilo.id]">
-                    <img *ngIf="profilo" [src]="[profilo.proPic]" />
+                <a *ngIf="profilo?.id" class="profile-img" [routerLink]="['/profiles', profilo.id]">
+                    <img [src]="[profilo.proPic]" />
                 </a>
                 <div class="profile-name" >
                     <a *ngIf="profilo" class="user instalink" [routerLink]="['/profiles', profilo.id]" >
@@ -115,9 +115,9 @@
                 Vedi tutti gli 817 commenti
             </a>-->
             <div class="loading" *ngIf="!loadingComment">loading...</div>
-            <section class="instapost__description" *ngIf="loadingComment">
+            <section class="instapost__description" *ngIf="loadingComment && profiliCommentatori.length">
                 <div *ngFor="let commento of commenti; let i = index">
-                    <a class="user instalink" [routerLink]="['/profiles', profiliCommentatori[i].id]">
+                    <a *ngIf="profiliCommentatori[i]?.id" class="user instalink" [routerLink]="['/profiles', profiliCommentatori[i].id]">
                         {{profiliCommentatori[i].nickname}}
                     </a> <span>{{commento.comment}}</span>
                 </div>

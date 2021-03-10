@@ -83,12 +83,13 @@ export class PostCardComponent implements OnInit {
                         this.getAccount(comment.idCommentatore);
                     }
                 }
+                console.log(this.commenti);
                 this.loadingComment = true;
             }
         );
         
     }
-
+    
     private getAccount(idCommentatore: string){
         this.profilesService.fetchAccounts().subscribe(
             responseProfiles => {
@@ -98,6 +99,7 @@ export class PostCardComponent implements OnInit {
                         break;
                     }
                 }
+                console.log(this.profiliCommentatori);
             }
         );
     }
