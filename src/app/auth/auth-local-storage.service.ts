@@ -74,4 +74,25 @@ export class AuthLocalStorage {
     logout(){
         localStorage.removeItem("sessione");
     }
+    /**
+     * metodo per fare il reset della password ad una password di default
+     * @param email email utente di cui voglio resettare la password
+     */
+    resetPassword(email: string){
+        let users: {email: string, password: string, id: number}[] = [];
+        users = JSON.parse(localStorage.getItem("utenti") || "[]");
+        if(users.length == 0){
+            console.log('non ci sono utenti registrati!');
+        }
+        else {
+            for(let user of users){
+                if(user.email === email){
+                    user.password = 'password';
+                    console.log('password di ' + user.email + 'resettata');
+                    break;
+                }
+            }
+            localStorage.setItem("utenti", JSON.stringify(users));
+        }
+    }
 }

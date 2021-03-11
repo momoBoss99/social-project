@@ -6,17 +6,23 @@ import { AuthComponent } from "./auth.component";
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from "./auth.guard";
+import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 
 
 @NgModule({
-    declarations: [AuthComponent, RegisterComponent, LoginComponent],
+    declarations: [AuthComponent,
+        RegisterComponent, 
+        LoginComponent,
+        ResetPasswordComponent
+    ],
     imports: [
         CommonModule,
         FormsModule,
         RouterModule.forChild([
             { path: '', component: AuthComponent, children: [
                 { path: '', component: LoginComponent},
-                { path: 'register', component: RegisterComponent}
+                { path: 'register', component: RegisterComponent},
+                { path: 'resetpassword', component: ResetPasswordComponent}
             ] }
         ])
     ],
