@@ -127,7 +127,7 @@ export class ProfilesListViewComponent implements OnInit {
             this.profilesService.getFollows().subscribe(responseFollows => {
                 for(let profile of responseAccounts){
                     for(let follow of responseFollows){
-                        if(profile.id === follow.idFollower && idProfile === follow.idFollowed){
+                        if(profile.id === follow.idFollowed && idProfile === follow.idFollower){
                             this.profiles.push(profile);
                         }
                     }

@@ -227,9 +227,7 @@ export class PostCardComponent implements OnInit {
                                                 tmp.idPost === commentLike.idPost &&
                                                 tmp.idProfilo === commentLike.idProfilo){
                                                     this.profilesService.deleteCommentLike(key).subscribe(response => {
-                                                        console.log(response);
                                                         console.log('like rimosso');
-
                                                     });
                                                 break;
                                             }
