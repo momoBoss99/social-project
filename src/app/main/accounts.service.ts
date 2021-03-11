@@ -285,6 +285,16 @@ export class AccountsService {
     fetchCommentLikes(){
         return this.http.get<CommentoLike[]>(
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/commentlikes.json`
+        ).pipe(
+            map(responseCommentLikes => {
+                const commentLikesArray: CommentoLike[] = [];
+                for(const key in responseCommentLikes){
+                    if(responseCommentLikes.hasOwnProperty(key)){
+                        commentLikesArray.push({...responseCommentLikes[key]});
+                    }
+                }
+                return commentLikesArray;
+            })
         )
     }
     /**

@@ -204,23 +204,25 @@ export class PostCardComponent implements OnInit {
         let isPresent: boolean = false;
 
         this.profilesService.fetchCommentLikes().subscribe(responseCommentLikes => {
-            for(let commentLike of responseCommentLikes){
-                /**
-                 * se questo if è true, allora il commento ha già almeno un like.
-                 */
-                if(commentLike.idCommentatore === commento.idCommentatore &&
-                    commentLike.idPost === commento.idPost &&
-                    commentLike.idProfilo === commento.idProfilo){
-                        /**
-                         * c'era già il like al commento da questo user! like da eliminare.
-                         */
-                        if(commentLike.idLiker === idSession){
-                            //FIXME
-                            console.log('like rimosso');
-                            isPresent = true;
-                            break;
+            if(responseCommentLikes){
+                for(let commentLike of responseCommentLikes){
+                    /**
+                     * se questo if è true, allora il commento ha già almeno un like.
+                     */
+                    if(commentLike.idCommentatore === commento.idCommentatore &&
+                        commentLike.idPost === commento.idPost &&
+                        commentLike.idProfilo === commento.idProfilo){
+                            /**
+                             * c'era già il like al commento da questo user! like da eliminare.
+                             */
+                            if(commentLike.idLiker === idSession){
+                                //FIXME
+                                console.log('like rimosso');
+                                isPresent = true;
+                                break;
+                            }
                         }
-                    }
+                }
             }
             /**
              * non c'era ancora il like. aggiungere
