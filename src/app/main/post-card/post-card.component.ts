@@ -216,8 +216,26 @@ export class PostCardComponent implements OnInit {
                              * c'era già il like al commento da questo user! like da eliminare.
                              */
                             if(commentLike.idLiker === idSession){
-                                //FIXME
-                                console.log('like rimosso');
+                                let idCommentLike: string = null;
+                                this.profilesService.prepareRemoveCommentLike().subscribe(responseCommentLikes => {
+                                    let commentLikesArray: CommentoLike[] = [];
+                                    for(const key in responseCommentLikes){
+                                        if(responseCommentLikes.hasOwnProperty(key)){
+                                            let tmp = {...responseCommentLikes[key]};
+                                            if(tmp.idCommentatore === commentLike.idCommentatore && 
+                                                tmp.idLiker === commentLike.idLiker &&
+                                                tmp.idPost === commentLike.idPost &&
+                                                tmp.idProfilo === commentLike.idProfilo){
+                                                    this.profilesService.deleteCommentLike(key).subscribe(response => {
+                                                        console.log(response);
+                                                        console.log('like rimosso');
+
+                                                    });
+                                                break;
+                                            }
+                                        }
+                                    }
+                                })
                                 isPresent = true;
                                 break;
                             }

@@ -306,4 +306,16 @@ export class AccountsService {
             commentLike
         );
     }
+
+    prepareRemoveCommentLike(){
+        return this.http.get<CommentoLike[]>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/commentlikes.json`
+        );
+    }
+
+    deleteCommentLike(idCommentLike: string){
+        return this.http.delete(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/commentlikes/${idCommentLike}.json`
+        );
+    }
 }
