@@ -119,7 +119,9 @@
                 <div *ngFor="let commento of commenti; let i = index">
                     <a *ngIf="profiliCommentatori[i]?.id" class="user instalink" [routerLink]="['/profiles', profiliCommentatori[i].id]">
                         {{profiliCommentatori[i].nickname}}
-                    </a> <span>{{commento.comment}}</span>
+                    </a>
+                    <span>{{commento.comment}}</span> 
+                    <span style="padding-left: 3px; cursor: pointer;" (click)="onToggleLikeComment(commento)">(9)</span>
                 </div>
             </section>
 

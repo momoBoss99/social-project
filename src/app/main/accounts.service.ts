@@ -7,6 +7,7 @@ import { Commento } from "../shared/commento.model";
 import { Like } from "../shared/like.model";
 import { pipe } from "rxjs";
 import { Follow } from "../shared/follow.model";
+import { CommentoLike } from "../shared/commento-like.model";
 
 
 /**
@@ -277,4 +278,22 @@ export class AccountsService {
         );
     }
 
+    /**
+     * sezione like al commento:
+     * questo metodo prende tutti i like al commento
+     */
+    fetchCommentLikes(){
+        return this.http.get<CommentoLike[]>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/commentlikes.json`
+        )
+    }
+    /**
+     * metodo che mi permette di aggiungere un like ad un commento nel mio DB
+     */
+    addCommentLike(commentLike: CommentoLike){
+        return this.http.post<CommentoLike>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/commentlikes.json`,
+            commentLike
+        );
+    }
 }

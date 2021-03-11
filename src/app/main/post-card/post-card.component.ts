@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { CommentoLike } from "src/app/shared/commento-like.model";
 import { Commento } from "src/app/shared/commento.model";
 import { Like } from "src/app/shared/like.model";
 import { Post } from "src/app/shared/post.model";
@@ -188,5 +189,47 @@ export class PostCardComponent implements OnInit {
 
     viewLikesList(){
         this.router.navigate(['/profiles/list/likes', this.post.idPost]);
+    }
+
+
+    /**
+     * se il commento aveva già il like di questo utente, viene tolto. 
+     * Altrimenti viene aggiunto
+     */
+    onToggleLikeComment(commento: Commento){
+        let idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
+        /**
+         * variabile booleana che mi serve a capire se il like è presente o meno nel commento
+         */
+        let isPresent: boolean = false;
+
+        this.profilesService.fetchCommentLikes().subscribe(responseCommentLikes => {
+            for(let commentLike of responseCommentLikes){
+                /**
+                 * se questo if è true, allora il commento ha già almeno un like.
+                 */
+                if(commentLike.idCommentatore === commento.idCommentatore &&
+                    commentLike.idPost === commento.idPost &&
+                    commentLike.idProfilo === commento.idProfilo){
+                        /**
+                         * c'era già il like al commento da questo user! like da eliminare.
+                         */
+                        if(commentLike.idLiker === idSession){
+                            //FIXME
+                            console.log('like rimosso');
+                            isPresent = true;
+                            break;
+                        }
+                    }
+            }
+            /**
+             * non c'era ancora il like. aggiungere
+             */
+            if(!isPresent){
+                this.profilesService.addCommentLike(new CommentoLike(commento.idPost, commento.idCommentatore, commento.idProfilo, idSession, new Date(Date.now()))).subscribe(response => {
+                    console.log(response);
+                });
+            }   
+        })
     }
 }   

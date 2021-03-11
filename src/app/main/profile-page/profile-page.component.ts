@@ -44,7 +44,7 @@ export class ProfilePageComponent implements OnInit {
         this.getAndFiltraFollowers();
       }
     )
-    } 
+    }
     /**
      * prende il profilo dal DB
      */
