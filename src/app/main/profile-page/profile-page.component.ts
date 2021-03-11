@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Follow } from 'src/app/shared/follow.model';
 import { Post } from 'src/app/shared/post.model';
 import { Profile } from 'src/app/shared/profile.model';
@@ -25,14 +25,26 @@ export class ProfilePageComponent implements OnInit {
   click: boolean = false;
 
   constructor(private profileService: AccountsService,
-              private router: Router) { }
+              private router: Router, 
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getProfile();
     this.getPosts();
     this.followCheck();
     this.getAndFiltraFollowers();
-    }
+    /**
+     * quando viene cambiato l'id del profilo nell'url, viene di conseguenza aggiornato il profilo
+     */
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.getProfile();
+        this.getPosts();
+        this.followCheck();
+        this.getAndFiltraFollowers();
+      }
+    )
+    } 
     /**
      * prende il profilo dal DB
      */
@@ -50,6 +62,7 @@ export class ProfilePageComponent implements OnInit {
     private getPosts(){
       this.profileService.fetchPosts().subscribe(
         responsePosts => {
+          this.posts = [];
           for(let post of responsePosts){
             if(post.idProfile === this.idProfilo){
               console.log(post);
