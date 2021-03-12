@@ -216,9 +216,7 @@ export class PostCardComponent implements OnInit {
                              * c'era già il like al commento da questo user! like da eliminare.
                              */
                             if(commentLike.idLiker === idSession){
-                                let idCommentLike: string = null;
                                 this.profilesService.prepareRemoveCommentLike().subscribe(responseCommentLikes => {
-                                    let commentLikesArray: CommentoLike[] = [];
                                     for(const key in responseCommentLikes){
                                         if(responseCommentLikes.hasOwnProperty(key)){
                                             let tmp = {...responseCommentLikes[key]};
