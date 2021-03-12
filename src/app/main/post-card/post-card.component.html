@@ -121,7 +121,7 @@
                         {{profiliCommentatori[i].nickname}}
                     </a>
                     <span>{{commento.comment}}</span> 
-                    <span style="padding-left: 3px; cursor: pointer;" (click)="onToggleLikeComment(commento)">({{likesPerOgniCommento[i]}})</span>
+                    <span *ngIf="isCommentsLikesLoaded" style="padding-left: 3px; cursor: pointer;" (click)="onToggleLikeComment(commento, i)">({{likesPerOgniCommento[i]}})</span>
                 </div>
             </section>
 

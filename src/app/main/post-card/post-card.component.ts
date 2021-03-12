@@ -36,6 +36,7 @@ export class PostCardComponent implements OnInit {
     loadingComment: boolean = false;
     loadingLikes: boolean = false;
     isLiked: boolean = false;
+    isCommentsLikesLoaded: boolean = false;
     idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
     /**
      * variabile modificata dinamicamente dall'input nel component HTML
@@ -81,6 +82,9 @@ export class PostCardComponent implements OnInit {
     private getAndFiltraCommenti(){
         this.profilesService.fetchComments().subscribe(
             responseComments => {
+                this.commenti = [];
+                this.likesPerOgniCommento = [];
+                this.isCommentsLikesLoaded = false;
                 for(let comment of responseComments){
                     if(comment.idPost === this.post.idPost){
                         this.commenti.push(comment);
@@ -91,6 +95,7 @@ export class PostCardComponent implements OnInit {
                 console.log(this.commenti);
                 console.log(this.likesPerOgniCommento);
                 this.loadingComment = true;
+                this.isCommentsLikesLoaded = true;
             }
         );
         
@@ -201,7 +206,8 @@ export class PostCardComponent implements OnInit {
      * se il commento aveva già il like di questo utente, viene tolto. 
      * Altrimenti viene aggiunto
      */
-    onToggleLikeComment(commento: Commento){
+    onToggleLikeComment(commento: Commento, index: number){
+        this.isCommentsLikesLoaded = false;
         let idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
         /**
          * variabile booleana che mi serve a capire se il like è presente o meno nel commento
@@ -214,10 +220,7 @@ export class PostCardComponent implements OnInit {
                     /**
                      * se questo if è true, allora il commento ha già almeno un like.
                      */
-                    /*if(commentLike.idCommentatore === commento.idCommentatore &&
-                        commentLike.idPost === commento.idPost &&
-                        commentLike.idProfilo === commento.idProfilo){*/
-                        if(commento.idCommento === commentLike.idCommento){
+                    if(commento.idCommento === commentLike.idCommento){
                             /**
                              * c'era già il like al commento da questo user! like da eliminare.
                              */
@@ -229,6 +232,8 @@ export class PostCardComponent implements OnInit {
                                             if(tmp.idCommentLike === commentLike.idCommentLike){
                                                     this.profilesService.deleteCommentLike(key).subscribe(response => {
                                                         console.log('like rimosso');
+                                                        this.likesPerOgniCommento[index] -= 1;
+                                                        this.isCommentsLikesLoaded = true;
                                                     });
                                                 break;
                                             }
@@ -248,6 +253,8 @@ export class PostCardComponent implements OnInit {
                 let newId: string = UUID.UUID();
                 this.profilesService.addCommentLike(new CommentoLike(newId ,commento.idCommento, idSession, new Date(Date.now()))).subscribe(response => {
                     console.log(response);
+                    this.likesPerOgniCommento[index] += 1;
+                    this.isCommentsLikesLoaded = true;
                 });
             }   
         })
