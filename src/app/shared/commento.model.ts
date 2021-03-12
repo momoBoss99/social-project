@@ -1,5 +1,7 @@
 export class Commento {
-    constructor(public comment: string, 
+    constructor(
+        public idCommento: string,
+        public comment: string, 
         public dataScrittura: Date,
         public idProfilo: string,
         public idPost: string,

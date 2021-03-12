@@ -7,6 +7,8 @@ import { Like } from "src/app/shared/like.model";
 import { Post } from "src/app/shared/post.model";
 import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../accounts.service";
+import { UUID } from 'angular2-uuid';
+
 
 @Component({
     selector: 'app-post-card',
@@ -29,6 +31,7 @@ export class PostCardComponent implements OnInit {
      */
     commenti: Commento[] = [];
     profiliCommentatori: Profile[] = [];
+    likesPerOgniCommento: number[] = [];
     likesAlPost: Like[] = [];
     loadingComment: boolean = false;
     loadingLikes: boolean = false;
@@ -55,9 +58,9 @@ export class PostCardComponent implements OnInit {
         this.commentoInviato = true;
         this.loadingComment = false;
         let idCommentatore: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
+        let idCommento: string = UUID.UUID();
 
-
-        this.profilesService.createComment(new Commento(this.commento, new Date(Date.now()), this.profilo.id, this.post.idPost, idCommentatore)).subscribe(
+        this.profilesService.createComment(new Commento(idCommento ,this.commento, new Date(Date.now()), this.profilo.id, this.post.idPost, idCommentatore)).subscribe(
             responseData => {
                 console.log(responseData);
                 /**
@@ -82,9 +85,11 @@ export class PostCardComponent implements OnInit {
                     if(comment.idPost === this.post.idPost){
                         this.commenti.push(comment);
                         this.getAccount(comment.idCommentatore);
+                        this.getLikesPerCommento(comment);
                     }
                 }
                 console.log(this.commenti);
+                console.log(this.likesPerOgniCommento);
                 this.loadingComment = true;
             }
         );
@@ -209,9 +214,10 @@ export class PostCardComponent implements OnInit {
                     /**
                      * se questo if è true, allora il commento ha già almeno un like.
                      */
-                    if(commentLike.idCommentatore === commento.idCommentatore &&
+                    /*if(commentLike.idCommentatore === commento.idCommentatore &&
                         commentLike.idPost === commento.idPost &&
-                        commentLike.idProfilo === commento.idProfilo){
+                        commentLike.idProfilo === commento.idProfilo){*/
+                        if(commento.idCommento === commentLike.idCommento){
                             /**
                              * c'era già il like al commento da questo user! like da eliminare.
                              */
@@ -220,10 +226,7 @@ export class PostCardComponent implements OnInit {
                                     for(const key in responseCommentLikes){
                                         if(responseCommentLikes.hasOwnProperty(key)){
                                             let tmp = {...responseCommentLikes[key]};
-                                            if(tmp.idCommentatore === commentLike.idCommentatore && 
-                                                tmp.idLiker === commentLike.idLiker &&
-                                                tmp.idPost === commentLike.idPost &&
-                                                tmp.idProfilo === commentLike.idProfilo){
+                                            if(tmp.idCommentLike === commentLike.idCommentLike){
                                                     this.profilesService.deleteCommentLike(key).subscribe(response => {
                                                         console.log('like rimosso');
                                                     });
@@ -242,10 +245,24 @@ export class PostCardComponent implements OnInit {
              * non c'era ancora il like. aggiungere
              */
             if(!isPresent){
-                this.profilesService.addCommentLike(new CommentoLike(commento.idPost, commento.idCommentatore, commento.idProfilo, idSession, new Date(Date.now()))).subscribe(response => {
+                let newId: string = UUID.UUID();
+                this.profilesService.addCommentLike(new CommentoLike(newId ,commento.idCommento, idSession, new Date(Date.now()))).subscribe(response => {
                     console.log(response);
                 });
             }   
         })
+    }
+
+
+    private getLikesPerCommento(comment: Commento){
+        this.profilesService.fetchCommentLikes().subscribe(responseCommentLikes => {
+            let counter: number = 0;
+            for(let commentLike of responseCommentLikes){
+                if(commentLike.idCommento === comment.idCommento){
+                        counter++;
+                    }
+            }
+            this.likesPerOgniCommento.push(counter);
+        });
     }
 }   

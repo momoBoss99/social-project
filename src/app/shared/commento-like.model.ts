@@ -4,9 +4,8 @@ export class CommentoLike {
          * chiave composta per identificare
          * il post
          */
-        public idPost: string,
-        public idCommentatore: string,
-        public idProfilo: string,
+        public idCommentLike: string,
+        public idCommento: string,
         /**
          * id utente che mette like 
          * al post
