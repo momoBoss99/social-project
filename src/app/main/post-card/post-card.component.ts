@@ -292,13 +292,14 @@ export class PostCardComponent implements OnInit {
                 if(responsePosts.hasOwnProperty(key)){
                     let tmp = {...responsePosts[key]};
                     if(tmp.idPost === this.post.idPost){
-                        this.profilesService.removePost(key).subscribe(response => {console.log(response);
+                        this.profilesService.removePost(key).subscribe(response => {
+                            console.log(response);
+                            this.router.navigate(['/profiles', this.idSession]);
                         });
                         break;
                     }
                 }
             }
         });
-        this.router.navigate(['/profiles', this.idSession]);
     }
 }   
