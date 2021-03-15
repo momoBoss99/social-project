@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
+import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 import { DetailFullComponent } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
@@ -18,7 +19,8 @@ const routes: Routes = [
         { path: 'list/likes/:idpost', component: ProfilesListViewComponent},
         { path: 'list/followers/:idprofile', component: ProfilesListViewComponent},
         { path: 'list/follows/:idprofiles', component: ProfilesListViewComponent},
-        { path: 'edit/post', component: AddPostComponent},
+        { path: 'add/post', component: AddPostComponent},
+        { path: 'edit/post/:idpost', component: EditPostCardComponent},
         { path: 'edit/profile', component: UpdateProfileComponent},
         { path: 'search/:name', component: SearchProfilesComponent},
         { path: 'posts/:id', component: DetailFullComponent},

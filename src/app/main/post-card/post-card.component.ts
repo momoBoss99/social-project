@@ -43,6 +43,10 @@ export class PostCardComponent implements OnInit {
      */
     commento: string;
     commentoInviato: boolean = false;
+    /**
+     * variabili dedicate al dropdown sul post
+     */
+    isDropdown: boolean = false;
 
     constructor(private profilesService: AccountsService, private http: HttpClient, private router: Router){}
 
@@ -271,5 +275,13 @@ export class PostCardComponent implements OnInit {
             }
             this.likesPerOgniCommento.push(counter);
         });
+    }
+
+    /**
+     * questo metodo serve ad aprire il menù (cancella, modifica) di operazioni sul post
+     */
+    dropdownToggle(){
+        console.log('dropdown works');
+        this.isDropdown = !this.isDropdown;
     }
 }   

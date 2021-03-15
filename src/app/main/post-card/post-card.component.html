@@ -35,9 +35,7 @@
                 <path d="M34.9 24c0-1.4-1.1-2.5-2.5-2.5s-2.5 1.1-2.5 2.5 1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5zm-21.8 0c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5zM24 37.3c-5.2 0-8-3.5-8.2-3.7-.5-.6-.4-1.6.2-2.1.6-.5 1.6-.4 2.1.2.1.1 2.1 2.5 5.8 2.5 3.7 0 5.8-2.5 5.8-2.5.5-.6 1.5-.7 2.1-.2.6.5.7 1.5.2 2.1 0 .2-2.8 3.7-8 3.7z"></path>
             </svg>
         </div>
-        
-        
-        
+
         <article class="instapost">
             <header class="instapost__header">
                 <a *ngIf="profilo?.id" class="profile-img" [routerLink]="['/profiles', profilo.id]">
@@ -48,11 +46,17 @@
                         {{profilo.nickname}}
                     </a>
                 </div>
-                <button class="btn btn-more" *ngIf="post.idProfile === idSession">
+                <button class="btn btn-more"
+                *ngIf="post.idProfile === idSession"
+                (click)="dropdownToggle()">
                     <svg>
                         <use xlink:href="#dots" />
                     </svg>
                 </button>
+                <div class="dropdown" *ngIf="isDropdown">
+                    <a class="dropdown-item" href="#">Elimina</a>
+                    <a class="dropdown-item" [routerLink]="['/profiles/edit/post', post.idPost]">Modifica</a>
+                </div>
             </header>
             <section class="instapost__image">
                 <img class="img img-0 show" src={{post.urlImg}} alt="image" />

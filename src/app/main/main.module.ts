@@ -15,6 +15,7 @@ import { AddPostComponent } from "./add-post/add-post.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 import { ProfileElementViewComponent } from "./profiles-list-view/profile-element-view/profile-element-view.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
+import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         AddPostComponent,
         UpdateProfileComponent,
         ProfileElementViewComponent,
-        ProfilesListViewComponent
+        ProfilesListViewComponent,
+        EditPostCardComponent
     ],
     imports: [
         RouterModule,

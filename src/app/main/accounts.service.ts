@@ -154,6 +154,22 @@ export class AccountsService {
         return postsSearched;
     }
     /**
+     * sezione modifica di un post
+     */
+    prepareUpdatePost(){
+        return this.http.get<Post[]>(           
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts.json`
+        );
+    }
+
+    updatePost(idPost: string, updatedPost: Post){
+        return this.http.put<Post>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts/${idPost}.json`,
+            updatedPost
+        );
+    }
+
+    /**
      * metodo che mi permette di aggiungere un commento ad un post.
      * Subscription delegata al chiamante
      * @param commento body chiamata HTTP

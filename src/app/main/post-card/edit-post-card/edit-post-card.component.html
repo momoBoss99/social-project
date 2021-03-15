@@ -1,0 +1,67 @@
+<div class="col-12" >
+    <div class="contents">
+        <div class="hidden">
+            <svg id="dots" viewBox="0 0 48 48">
+                <circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" id="like-filled" width="22" height="22" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+        
+            <svg id="smiley" viewBox="0 0 48 48">
+                <path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path>
+                <path d="M34.9 24c0-1.4-1.1-2.5-2.5-2.5s-2.5 1.1-2.5 2.5 1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5zm-21.8 0c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5zM24 37.3c-5.2 0-8-3.5-8.2-3.7-.5-.6-.4-1.6.2-2.1.6-.5 1.6-.4 2.1.2.1.1 2.1 2.5 5.8 2.5 3.7 0 5.8-2.5 5.8-2.5.5-.6 1.5-.7 2.1-.2.6.5.7 1.5.2 2.1 0 .2-2.8 3.7-8 3.7z"></path>
+            </svg>
+        </div>
+
+        <article class="instapost">
+            <header class="instapost__header">
+                <a *ngIf="profile?.id" class="profile-img" [routerLink]="['/profiles', profile.id]">
+                    <img [src]="[profile.proPic]" />
+                </a>
+                <div class="profile-name" >
+                    <a *ngIf="profile" class="user instalink" [routerLink]="['/profiles', profile.id]" >
+                        {{profile.nickname}}
+                    </a>
+                </div>
+
+
+            </header>
+            <section class="instapost__image" *ngIf="post?.urlImg">
+                <img class="img img-0 show" src={{post.urlImg}} alt="image" />
+                <div class="like-heart">
+                    <svg>
+                        <use xlink:href="#dislike" />
+                    </svg>
+                </div>
+                <div class="ctrl ctrl-left hide">
+                    <button>
+                        <i class="fa fa-angle-left" ></i>
+                    </button>
+                </div>
+                <div class="ctrl ctrl-dots"></div>
+            </section>
+            <section class="instapost__action">
+                <button class="btn btn-comment">
+                    <svg>
+                        <use xlink:href="#comment" />
+                    </svg>
+                </button>
+            </section>
+
+            <section class="instapost__add-comment">
+                <textarea [(ngModel)]="descrizione" class="comment-input" placeholder="Aggiungi un commento" rows="1"></textarea>
+                <button class="btn btn-send-comment" type="submit" (click)="onSubmit()" >
+                    Modifica descrizione
+                </button>
+            </section>
+
+            <section class="instapost__timestamp" *ngIf="post?.dataPost">
+                {{post.dataPost | date: 'dd/MM/yyyy'}}
+            </section>
+        </article>
+    </div>
+</div>
