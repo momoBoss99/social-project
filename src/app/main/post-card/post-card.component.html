@@ -54,7 +54,7 @@
                     </svg>
                 </button>
                 <div class="dropdown" *ngIf="isDropdown">
-                    <a class="dropdown-item" href="#">Elimina</a>
+                    <a class="dropdown-item" (click)="onRemovePost()">Elimina</a>
                     <a class="dropdown-item" [routerLink]="['/profiles/edit/post', post.idPost]">Modifica</a>
                 </div>
             </header>

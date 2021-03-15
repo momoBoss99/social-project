@@ -56,7 +56,7 @@ export class EditPostCardComponent implements OnInit {
 
     onSubmit(){
         console.log('prova modifica descrizione');
-        this.profilesService.prepareUpdatePost().subscribe(responsePosts => {
+        this.profilesService.prepareFetchPost().subscribe(responsePosts => {
             for(const key in responsePosts){
                 if(responsePosts.hasOwnProperty(key)){
                     let tmp = {...responsePosts[key]};

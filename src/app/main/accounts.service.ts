@@ -156,7 +156,7 @@ export class AccountsService {
     /**
      * sezione modifica di un post
      */
-    prepareUpdatePost(){
+    prepareFetchPost(){
         return this.http.get<Post[]>(           
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts.json`
         );
@@ -166,6 +166,15 @@ export class AccountsService {
         return this.http.put<Post>(
             `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts/${idPost}.json`,
             updatedPost
+        );
+    }
+    /**
+     * rimozione di un post
+     */
+
+    removePost(idPost: string){
+        return this.http.delete<Post>(
+            `https://insta-clone-7660e-default-rtdb.firebaseio.com/posts/${idPost}.json`
         );
     }
 

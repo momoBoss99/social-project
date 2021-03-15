@@ -284,4 +284,21 @@ export class PostCardComponent implements OnInit {
         console.log('dropdown works');
         this.isDropdown = !this.isDropdown;
     }
+
+    onRemovePost(){
+        console.log("rimozione post...");
+        this.profilesService.prepareFetchPost().subscribe(responsePosts => {
+            for(const key in responsePosts){
+                if(responsePosts.hasOwnProperty(key)){
+                    let tmp = {...responsePosts[key]};
+                    if(tmp.idPost === this.post.idPost){
+                        this.profilesService.removePost(key).subscribe(response => {console.log(response);
+                        });
+                        break;
+                    }
+                }
+            }
+        });
+        this.router.navigate(['/profiles', this.idSession]);
+    }
 }   
