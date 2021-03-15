@@ -32,6 +32,7 @@ export class PostCardComponent implements OnInit {
     commenti: Commento[] = [];
     profiliCommentatori: Profile[] = [];
     likesPerOgniCommento: number[] = [];
+    unProfiloLike: Profile;
     likesAlPost: Like[] = [];
     loadingComment: boolean = false;
     loadingLikes: boolean = false;
@@ -50,6 +51,7 @@ export class PostCardComponent implements OnInit {
         this.loadingComment = false;
         this.getAndFiltraCommenti();
         this.getAndFiltraLikes();
+        this.getUnProfiloLike();
     }
     
     /**
@@ -270,6 +272,31 @@ export class PostCardComponent implements OnInit {
                     }
             }
             this.likesPerOgniCommento.push(counter);
+        });
+    }
+
+
+    /**
+     * metodo privato che serve a fare il fetch di un profilo che ha messo like al post, 
+     * al fine di mostrarne il nickname nella view del post
+     */
+    private getUnProfiloLike(){
+        this.profilesService.getLikes().subscribe(responseLikes => {
+            if(responseLikes){
+                for(let like of responseLikes){
+                    if(like.idPost === this.post.idPost){
+                        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
+                            for(let profile of responseProfiles){
+                                if(profile.id === responseLikes[0].idProfileLiker){
+                                    this.unProfiloLike = profile;
+                                    console.log(this.unProfiloLike);
+                                    break;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
         });
     }
 }   
