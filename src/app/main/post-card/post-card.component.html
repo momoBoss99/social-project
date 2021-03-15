@@ -1,4 +1,3 @@
-<!--<div class="loading" >loading...</div>-->
 <div class="col-12" >
     <div class="contents">
         <div class="hidden">
@@ -48,9 +47,8 @@
                     <a *ngIf="profilo" class="user instalink" [routerLink]="['/profiles', profilo.id]" >
                         {{profilo.nickname}}
                     </a>
-                    <a class="location" href="https://www.instagram.com/explore/locations/55389054/debrecen/" target="_blank">Turin, Italy</a>
                 </div>
-                <button class="btn btn-more">
+                <button class="btn btn-more" *ngIf="post.idProfile === idSession">
                     <svg>
                         <use xlink:href="#dots" />
                     </svg>
@@ -66,11 +64,6 @@
                 <div class="ctrl ctrl-left hide">
                     <button>
                         <i class="fa fa-angle-left" ></i>
-                    </button>
-                </div>
-                <div class="ctrl ctrl-right">
-                    <button>
-                        <i class="fa fa-angle-right"></i>
                     </button>
                 </div>
                 <div class="ctrl ctrl-dots"></div>
@@ -92,19 +85,9 @@
                         <use xlink:href="#comment" />
                     </svg>
                 </button>
-                <button class="btn btn-send">
-                    <svg>
-                        <use xlink:href="#send" />
-                    </svg>
-                </button>
-                <button class="btn btn-save">
-                    <svg>
-                        <use xlink:href="#save" />
-                    </svg>
-                </button>
             </section>
             <section class="instapost__likes">
-                Piace a <a class="instalink" >margamonte</a> e <a *ngIf="post" class="instalink" (click)="viewLikesList()">altri {{ likesAlPost.length}}</a>
+                Piace a <a *ngIf="post" class="instalink" (click)="viewLikesList()"> {{ likesAlPost.length}} persone</a>
             </section>
             <section *ngIf="profilo" class="instapost__description">
                 <a class="user instalink" [routerLink]="['/profiles', profilo.id]">
@@ -133,15 +116,10 @@
                 Vedi tutti i commenti
             </a>-->
             <section class="instapost__timestamp">
-                <!--10 minuti fa-->
                 {{post.dataPost | date: 'dd/MM/yyyy'}}
             </section>
             <section class="instapost__add-comment">
-                <button class="btn btn-smiley">
-                    <svg>
-                        <use xlink:href="#smiley" />
-                    </svg>
-                </button>
+
                 <textarea [(ngModel)]="commento" class="comment-input" placeholder="Aggiungi un commento" rows="1"></textarea>
                 <button class="btn btn-send-comment" type="submit" (click)="onSubmit()" >
                     Invia
