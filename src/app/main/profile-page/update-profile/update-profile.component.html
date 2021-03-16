@@ -4,30 +4,30 @@
         <div class="col-6">
             <div class="loading" *ngIf="!loadingProfile">loading...</div>
             <form *ngIf="loadingProfile" (ngSubmit)="onSumbit()" #f="ngForm">
-                <h3>Nuovo Nickname:</h3>
+                <h3>Nickname:</h3>
                 <input 
                         type="text"
                         class="form-control"
                         name="nickname"
-                        ngModel>
-                <h3>Nuovo Nome:</h3>
+                        [(ngModel)]="profile.nickname">
+                <h3>Nome:</h3>
                 <input 
                         type="text"
                         class="form-control"
                         name="nome"
-                        ngModel>
-                <h3>Nuova Biografia:</h3>
+                        [(ngModel)]="profile.nome">
+                <h3>Biografia:</h3>
                 <input 
                         type="text" 
                         class="form-control"
                         name="biografia"
-                        ngModel>
-                <h3>Nuova Propic:</h3>
+                        [(ngModel)]="profile.biografia">
+                <h3>Propic:</h3>
                 <input 
                         type="text" 
                         class="form-control"
                         name="proPic"
-                        ngModel>
+                        [(ngModel)]="profile.proPic">
                 <button 
                         type="submit"
                         class="btn btn-primary">

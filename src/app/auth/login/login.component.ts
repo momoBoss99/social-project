@@ -32,19 +32,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate([`/profiles/${idUser}`]);
       } else {
         console.log("login non riuscito");
+        window.alert("Ricontrolla email e password!");
       }
-      /*
-      this.authObs = this.authService.login(email, password);
 
-      this.authObs.subscribe(resData => {
-          console.log(resData);
-          console.log('successo');
-          this.router.navigate(['/profiles/1']);
-      }, errorMessage => {
-          console.log(errorMessage);
-      });
-      */
-
-      this.loginForm.reset();
   }
 }

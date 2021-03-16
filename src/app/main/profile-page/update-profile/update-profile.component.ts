@@ -11,7 +11,6 @@ import { AccountsService } from "../../accounts.service";
 })
 export class UpdateProfileComponent implements OnInit{
     @ViewChild('f') updateProfileForm: NgForm;
-    nickname = document.getElementById('')
     profile: Profile;
     loadingProfile: boolean = false;
     idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
@@ -33,6 +32,7 @@ export class UpdateProfileComponent implements OnInit{
                         console.log('profilo trovato');
                         this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
                             console.log(response);
+
                             /**
                              * navigazione al profilo
                              */
