@@ -64,7 +64,9 @@ export class EditPostCardComponent implements OnInit {
                         console.log("post trovato nel db");
                         let updatedPost: Post = this.post;
                         updatedPost.descrizione = this.descrizione;
-                        this.profilesService.updatePost(key, updatedPost).subscribe(response => {console.log(response);
+                        this.profilesService.updatePost(key, updatedPost).subscribe(response => {
+                            console.log(response);
+                            this.router.navigate(['/profiles', this.idSession]);
                         });
                         break;
                     }
@@ -72,6 +74,5 @@ export class EditPostCardComponent implements OnInit {
             }
         });
 
-        this.router.navigate(['/profiles', this.idSession]);
     }
 }

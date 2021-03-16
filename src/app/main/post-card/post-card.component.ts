@@ -147,6 +147,7 @@ export class PostCardComponent implements OnInit {
     }
 
     onToggleLikeTest(){
+        this.isLiked = !this.isLiked;
         let isPresent: boolean = false;
         let idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
         /**
@@ -301,5 +302,12 @@ export class PostCardComponent implements OnInit {
                 }
             }
         });
+    }
+
+
+    onFocusCommentForm(){
+        console.log('focus comment form');
+        let textArea = document.getElementById('commento-area');
+        textArea.focus();
     }
 }   

@@ -84,7 +84,7 @@
                         <use xlink:href="#dislike" />
                     </svg>
                 </button>
-                <button class="btn btn-comment">
+                <button class="btn btn-comment" (click)="onFocusCommentForm()">
                     <svg>
                         <use xlink:href="#comment" />
                     </svg>
@@ -124,7 +124,7 @@
             </section>
             <section class="instapost__add-comment">
 
-                <textarea [(ngModel)]="commento" class="comment-input" placeholder="Aggiungi un commento" rows="1"></textarea>
+                <textarea [(ngModel)]="commento" id="commento-area" class="comment-input" placeholder="Aggiungi un commento" rows="1"></textarea>
                 <button class="btn btn-send-comment" type="submit" (click)="onSubmit()" >
                     Invia
                 </button>
