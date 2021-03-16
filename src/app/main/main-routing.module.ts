@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "../auth/auth.guard";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
@@ -12,9 +13,9 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
 
 const routes: Routes = [
     { path: '', component: MainComponent,
-            //canActivate: [AuthGuard],
+            canActivate: [AuthGuard],
             children: [
-        { path: '', component: HomepageComponent},
+        { path: 'homepage', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
         { path: 'list/likes/:idpost', component: ProfilesListViewComponent},
         { path: 'list/followers/:idprofile', component: ProfilesListViewComponent},

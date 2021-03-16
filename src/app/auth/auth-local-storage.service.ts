@@ -13,6 +13,7 @@ import { Profile } from "../shared/profile.model";
     providedIn: 'root'
 })
 export class AuthLocalStorage {
+    loggedIn: boolean = false;
     constructor(private http: HttpClient,
                 private router: Router,
                 private profilesService: AccountsService){}
@@ -51,6 +52,7 @@ export class AuthLocalStorage {
         users = JSON.parse(localStorage.getItem("utenti") || "[]");
         if(users.length == 0){
             console.log("non ci sono utenti");
+            this.loggedIn = false;
             return false;
         }
         else {
@@ -60,6 +62,7 @@ export class AuthLocalStorage {
                         console.log(user);
                         console.log("user trovato");
                         localStorage.setItem("sessione", JSON.stringify(user));
+                        this.loggedIn = true;
                         return true;
                     }
                 }
@@ -73,6 +76,7 @@ export class AuthLocalStorage {
      */
     logout(){
         localStorage.removeItem("sessione");
+        this.loggedIn = false;
     }
     /**
      * metodo per fare il reset della password ad una password di default
