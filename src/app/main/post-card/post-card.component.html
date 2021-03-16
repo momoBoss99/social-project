@@ -124,8 +124,18 @@
             </section>
             <section class="instapost__add-comment">
 
-                <textarea [(ngModel)]="commento" id="commento-area" class="comment-input" placeholder="Aggiungi un commento" rows="1"></textarea>
-                <button class="btn btn-send-comment" type="submit" (click)="onSubmit()" >
+                <textarea 
+                            [(ngModel)]="commento" 
+                            id="commento-area" 
+                            class="comment-input" 
+                            placeholder="Aggiungi un commento" 
+                            rows="1">
+                </textarea>
+                <button 
+                            class="btn btn-send-comment" 
+                            type="submit" 
+                            (click)="onSubmit()" 
+                            [disabled]="!commento">
                     Invia
                 </button>
             </section>

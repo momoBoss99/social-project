@@ -13,7 +13,7 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
 
 const routes: Routes = [
     { path: '', component: MainComponent,
-            canActivate: [AuthGuard],
+            //canActivate: [AuthGuard],
             children: [
         { path: 'homepage', component: HomepageComponent},
         { path: ':id', component: ProfilePageComponent},
