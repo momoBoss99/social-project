@@ -69,6 +69,11 @@ export class ProfilePageComponent implements OnInit {
               this.posts.push(post);
             }
           }
+          this.posts = this.posts.sort((a: Post, b: Post) => {
+            let res = new Date(b.dataPost).getTime() - 
+                      new Date(a.dataPost).getTime();
+            return res;
+          })
           console.log(this.posts);
           this.loadingPosts = true;
         }
@@ -150,6 +155,7 @@ export class ProfilePageComponent implements OnInit {
     onToggleFollow(){
       console.log('follow toggled!');
       if(this.following){
+        this.following = false;
         this.profileService.fetchFollows().subscribe(responseFollows => {
           for(const key in responseFollows){
             if(responseFollows.hasOwnProperty(key)){
@@ -157,7 +163,7 @@ export class ProfilePageComponent implements OnInit {
                 responseFollows[key].idFollower === this.idSession){
                   console.log("follow trovato");
                   this.profileService.deleteFollow(key).subscribe(response => {
-                    this.following = false;
+                    //this.following = false;
                     this.getAndFiltraFollowers();
                   })
                 }
@@ -166,8 +172,9 @@ export class ProfilePageComponent implements OnInit {
         })
       }
       else {
+        this.following = true;
         this.profileService.addFollow(new Follow(new Date(Date.now()), this.idSession, this.idProfilo)).subscribe(response => {
-          this.following = true;
+          //this.following = true;
           this.getAndFiltraFollowers();
         })
       }
