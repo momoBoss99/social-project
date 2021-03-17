@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthLocalStorage } from '../auth-local-storage.service';
-import { AuthResponseData, AuthService } from '../auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +11,8 @@ import { AuthResponseData, AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('authForm') loginForm: NgForm;
-  authObs: Observable<AuthResponseData>;
 
-  constructor(private authService: AuthLocalStorage, private router: Router){}
+  constructor(private authService: AuthService, private router: Router){}
   ngOnInit(): void {
 
   }

@@ -1,0 +1,9 @@
+h1, h2, h3, h4, h5 {
+    color: #E1306C;
+}
+
+
+.btn-primary {
+    background-color: #E1306C;
+    border-color: #ec2064;
+}

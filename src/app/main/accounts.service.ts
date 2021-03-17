@@ -52,14 +52,10 @@ export class AccountsService {
      * @param profile 
      */
     createAccount(profile: Profile){
-        this.http.post(
+        return this.http.post(
             'https://insta-clone-7660e-default-rtdb.firebaseio.com/profiles.json',
             profile
-        ).subscribe(responseData => {
-            console.log(responseData);
-        }, error => {
-            console.log(error);
-        })
+        );
     }
     /**
      * metodo che prepara la get di tutti i profili del db
