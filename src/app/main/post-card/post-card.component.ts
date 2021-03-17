@@ -307,7 +307,7 @@ export class PostCardComponent implements OnInit {
 
     onFocusCommentForm(){
         console.log('focus comment form');
-        let textArea = document.getElementById('commento-area');
+        let textArea = document.getElementById(this.post.idPost);
         textArea.focus();
     }
 }   
