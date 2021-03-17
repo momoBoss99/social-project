@@ -46,17 +46,21 @@
                         {{profilo.nickname}}
                     </a>
                 </div>
-                <button class="btn btn-more"
+
+
+                <button class="btn btn-more dropdown-css"
                 *ngIf="post.idProfile === idSession"
                 (click)="dropdownToggle()">
                     <svg>
                         <use xlink:href="#dots" />
                     </svg>
                 </button>
-                <div class="dropdown" *ngIf="isDropdown">
+                <div  *ngIf="isDropdown">
                     <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">Elimina</a>
                     <a class="dropdown-item" [routerLink]="['/profiles/edit/post', post.idPost]">Modifica</a>
                 </div>
+
+
             </header>
             <section class="instapost__image">
                 <img class="img img-0 show" src={{post.urlImg}} alt="image" />

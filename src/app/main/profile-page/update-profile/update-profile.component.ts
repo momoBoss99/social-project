@@ -23,7 +23,8 @@ export class UpdateProfileComponent implements OnInit{
 
     onSumbit(){
         console.log(this.updateProfileForm.value);
-        let profileUpdated: Profile = new Profile(this.idSession, this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname,this.profile.followers, this.profile.following, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
+        let profileUpdated: Profile = new Profile(this.idSession, this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
+
         console.log(profileUpdated);
         this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
             for(const key in responseProfiles){

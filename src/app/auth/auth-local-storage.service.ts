@@ -38,9 +38,9 @@ export class AuthLocalStorage {
         users.push({email, password, id});
         /**
          * creazione dell'utente nel database effettivo
-         */
+        
         this.profilesService.createAccount(new Profile(id.toString(), username, username, 0, 0, "perchè non aggiungi una biografia?", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", email));
-
+        */
         localStorage.setItem("utenti", JSON.stringify(users));
         console.log(JSON.parse(localStorage.getItem("utenti")));
     }

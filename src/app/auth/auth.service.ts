@@ -11,6 +11,7 @@ import { UUID } from 'angular2-uuid';
 })
 export class AuthService implements OnInit{
     profiles: Profile[] = [];
+    defaultPassword: string = "password";
 
     constructor(private profilesService: AccountsService){
         this.profilesService.fetchAccounts().subscribe(responseProfiles => {
@@ -32,7 +33,8 @@ export class AuthService implements OnInit{
      */
     signup(email: string, password: string, username: string){ 
         let id = UUID.UUID();
-        let newProfile: Profile = new Profile(id, username, username,0,0, null, null, email);
+        let newProfile: Profile = new Profile(id, username, username, null, null, email, password);
+        this.profiles.push(newProfile);
         this.profilesService.createAccount(newProfile).subscribe(response => {
             console.log(response);
         });
@@ -40,8 +42,9 @@ export class AuthService implements OnInit{
     
     login(email: string, password: string){
         console.log(email);
+        console.log(password);
         for(let profile of this.profiles){
-            if(profile.email === email){
+            if(profile.email === email && profile.password === password){
                 /**
                  * aggiungere successivamente il check per 
                  * psw
@@ -69,6 +72,7 @@ export class AuthService implements OnInit{
                          * modifica psw dopo aver modificato
                          * la classe Profile
                          */
+                        tmp.password = this.defaultPassword;
                         this.profilesService.updateAccount(key, tmp).subscribe(response => {
                             console.log(response);
                         });
