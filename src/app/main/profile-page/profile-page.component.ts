@@ -92,6 +92,7 @@ export class ProfilePageComponent implements OnInit {
     private getAccount(){
       this.profileService.fetchAccounts().subscribe(
         responseProfiles => {
+          console.log(responseProfiles);
           for(let profile of responseProfiles){
             if(profile.id === this.idProfilo){
               /**
@@ -104,6 +105,7 @@ export class ProfilePageComponent implements OnInit {
               }
               console.log('profilo trovato');
               this.profilo = profile;
+              this.fillProfile(this.profilo);
               this.loadingProfile = true;
               break;
             }
@@ -113,6 +115,20 @@ export class ProfilePageComponent implements OnInit {
           }
         }
       )
+    }
+
+    /**
+     * metodo che riempe il profilo con dei dati fittizzi se non ha ancora 
+     * alcuni dati, come per esempio la foto profilo e la biografia
+     * @param profile 
+     */
+    private fillProfile(profile: Profile){
+      if(!profile.biografia){
+        profile.biografia = "perchè non aggiungi una biografia?";
+      }
+      if(!profile.proPic){
+        profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+      }
     }
 
     /**

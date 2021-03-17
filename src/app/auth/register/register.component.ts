@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthLocalStorage } from '../auth-local-storage.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -35,7 +34,7 @@ export class RegisterComponent implements OnInit {
     const password = this.registraForm.value.password;
     const nickname = this.registraForm.value.username;
     this.authService.signup(email, password, nickname);
-
+    this.router.navigate(['']);
     this.registraForm.reset();
   }
 

@@ -12,13 +12,15 @@ import { UUID } from 'angular2-uuid';
 export class AuthService implements OnInit{
     profiles: Profile[] = [];
 
-    constructor(private profilesService: AccountsService){}
+    constructor(private profilesService: AccountsService){
+        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
+            this.profiles = responseProfiles;
+            console.log(this.profiles);
+        });
+    }
 
 
     ngOnInit() {
-        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
-            this.profiles = responseProfiles;
-        });
     }
 
     /**
@@ -37,6 +39,7 @@ export class AuthService implements OnInit{
     }
     
     login(email: string, password: string){
+        console.log(email);
         for(let profile of this.profiles){
             if(profile.email === email){
                 /**

@@ -32,9 +32,26 @@ export class SearchProfilesComponent implements OnInit {
          */
         this.profilesService.fetchAccountsSearch(this.daCercare).subscribe(
             responseProfiles => {
+                for(let profile of responseProfiles){
+                    this.fillProfile(profile);
+                }
                 this.profiles = responseProfiles;
             }
         );
     }
 
+
+            /**
+     * metodo che riempe il profilo con dei dati fittizzi se non ha ancora 
+     * alcuni dati, come per esempio la foto profilo e la biografia
+     * @param profile 
+     */
+    private fillProfile(profile: Profile){
+        if(!profile.biografia){
+            profile.biografia = "questo utente non ha ancora aggiunto una biografia";
+        }
+        if(!profile.proPic){
+            profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        }
+    }
 }
