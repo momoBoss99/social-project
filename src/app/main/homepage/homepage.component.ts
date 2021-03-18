@@ -60,6 +60,7 @@ export class HomepageComponent implements OnInit {
       responseProfiles => {
         for(let profile of responseProfiles){
           if(profile.id === idProfilo){
+            this.fillProfile(profile);
             this.profiles.push(profile);
             break;
           }
@@ -68,4 +69,10 @@ export class HomepageComponent implements OnInit {
     )
   }
 
+
+  private fillProfile(profile: Profile){
+    if(profile.proPic === undefined || profile.proPic === null){
+        profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+    }
+}
 }

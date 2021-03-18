@@ -73,6 +73,12 @@ export class AuthService implements OnInit{
                          * la classe Profile
                          */
                         tmp.password = this.defaultPassword;
+                        for(let i = 0; i < this.profiles.length; i++){
+                            if(this.profiles[i].email === tmp.email){
+                                this.profiles[i] = tmp;
+                                break;
+                            }
+                        }
                         this.profilesService.updateAccount(key, tmp).subscribe(response => {
                             console.log(response);
                         });

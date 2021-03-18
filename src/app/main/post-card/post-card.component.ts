@@ -51,9 +51,16 @@ export class PostCardComponent implements OnInit {
     constructor(private profilesService: AccountsService, private http: HttpClient, private router: Router){}
 
     ngOnInit(){
+        /*console.log(this.profilo);
+        this.fillProfile(this.profilo);
+        console.log(this.profilo);
+        */
+        
         this.loadingComment = false;
         this.getAndFiltraCommenti();
         this.getAndFiltraLikes();
+
+
     }
     
     /**

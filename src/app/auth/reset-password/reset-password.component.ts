@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AuthLocalStorage } from "../auth-local-storage.service";
+import { AuthService } from "../auth.service";
 
 @Component({
     selector: 'app-reset-password',
@@ -10,7 +11,7 @@ import { AuthLocalStorage } from "../auth-local-storage.service";
 export class ResetPasswordComponent implements OnInit {
     @ViewChild('f') resetForm: NgForm;
 
-    constructor(private authService: AuthLocalStorage){}
+    constructor(private authService: AuthService){}
 
     ngOnInit(){}
 
