@@ -45,11 +45,11 @@
         <div class="col-3"></div>
         <div class="col-6">
             <div class="alert alert-danger" role="alert"
-                *ngIf="(!emailForm.get('password').valid || 
-                !emailForm.get('confirm').valid ) &&
-                emailChangeSubmitted && 
-                emailForm.touched">
-                password sbagliata!
+                    *ngIf="(!emailForm.get('password').valid || 
+                    !emailForm.get('confirm').valid ) &&
+                    emailChangeSubmitted && 
+                    emailForm.touched">
+                    password sbagliata!
             </div>
 
             <form [formGroup]="emailForm" (ngSubmit)="onChangeMail()">
@@ -76,6 +76,49 @@
                         class="btn btn-primary">
                         cambia mail
                 </button>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="alert alert-danger" role="alert"
+            *ngIf="(!passwordForm.get('old').valid || 
+            passwordForm.get('new') !==
+            passwordForm.get('confirm')) &&
+            passwordChangeSubmitted && 
+            passwordForm.touched">
+            password sbagliata!
+            </div>
+
+
+            <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                <h3>vecchia password:</h3>
+            <input 
+                    type="password"
+                    id="old"
+                    formControlName="old"
+                    class="form-control">
+            <h3>nuova password:</h3>
+            <input 
+                    type="password"
+                    id="new"
+                    formControlName="new"
+                    class="form-control">
+            <h3>conferma password:</h3>
+            <input 
+                    type="password"
+                    id="confirm"
+                    formControlName="confirm"
+                    class="form-control">
+            <button
+                    type="submit"
+                    class="btn btn-primary">
+                cambia password
+            </button>
             </form>
         </div>
         <div class="col-3"></div>

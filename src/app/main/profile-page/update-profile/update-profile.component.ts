@@ -15,10 +15,15 @@ export class UpdateProfileComponent implements OnInit{
     loadingProfile: boolean = false;
     idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
     /**
-     * cambio email e password
+     * cambio email
      */
     emailForm: FormGroup;
     emailChangeSubmitted: boolean = false;
+    /**
+     * cambio psw
+     */
+    passwordForm: FormGroup;
+    passwordChangeSubmitted: boolean = false;
 
     constructor(private profilesService: AccountsService, private router: Router){}
 
@@ -59,6 +64,7 @@ export class UpdateProfileComponent implements OnInit{
                     this.profile = profile;
                     this.loadingProfile = true;
                     this.startingEmailForm();
+                    this.startingPasswordForm();
                 }
             }
         })
@@ -92,7 +98,7 @@ export class UpdateProfileComponent implements OnInit{
 
                 let profileUpdated: Profile = this.profile;
                 profileUpdated.email = this.emailForm.value.email;
-                
+
 
                 this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
                     for(const key in responseProfiles){
@@ -112,7 +118,45 @@ export class UpdateProfileComponent implements OnInit{
                         }
                     }
                 })
-            }
+        }
+    }
 
+    private startingPasswordForm(){
+        this.passwordForm = new FormGroup({
+            'old': new FormControl(null, [Validators.required, this.checkPassword.bind(this)]),
+            'new': new FormControl(null, [Validators.required]),
+            'confirm': new FormControl(null, [Validators.required])
+        });
+    }
+
+    onChangePassword(){
+        console.log('password changed');
+        console.log(this.passwordForm.value);
+        this.passwordChangeSubmitted = true;
+        if(this.passwordForm.get('old').valid &&
+            (this.passwordForm.value.new === this.passwordForm.value.confirm) &&
+            this.passwordForm.touched){
+                let profileUpdated: Profile = this.profile;
+                profileUpdated.password = this.passwordForm.value.new;
+
+                this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
+                    for(const key in responseProfiles){
+                        if(responseProfiles.hasOwnProperty(key)){
+                            if(responseProfiles[key].id === this.idSession){
+                                console.log('profilo trovato');
+                                this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
+                                    console.log(response);
+        
+                                    /**
+                                     * navigazione al profilo
+                                     */
+                                    this.router.navigate([`/profiles/${this.idSession}`]);
+                                });
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
     }
 }
