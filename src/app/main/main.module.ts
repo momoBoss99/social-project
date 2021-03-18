@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from './homepage/homepage.component';
@@ -38,6 +38,7 @@ import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card
         HttpClientModule,
         FormsModule,
         MainRoutingModule,
+        ReactiveFormsModule
     ],
     exports: [
         MainComponent,

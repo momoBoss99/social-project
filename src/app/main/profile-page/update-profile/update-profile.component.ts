@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../../accounts.service";
@@ -14,6 +14,11 @@ export class UpdateProfileComponent implements OnInit{
     profile: Profile;
     loadingProfile: boolean = false;
     idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
+    /**
+     * cambio email e password
+     */
+    emailForm: FormGroup;
+    emailChangeSubmitted: boolean = false;
 
     constructor(private profilesService: AccountsService, private router: Router){}
 
@@ -53,8 +58,61 @@ export class UpdateProfileComponent implements OnInit{
                     console.log('profilo trovato!');
                     this.profile = profile;
                     this.loadingProfile = true;
+                    this.startingEmailForm();
                 }
             }
         })
+    }
+
+    private startingEmailForm(){
+        this.emailForm = new FormGroup({
+            'email': new FormControl(this.profile.email, [Validators.required, Validators.email]),
+            'password': new FormControl(null, [Validators.required, this.checkPassword.bind(this)]),
+            'confirm': new FormControl(null, [Validators.required, this.checkPassword.bind(this)])
+        });
+    }
+
+    private checkPassword(control: FormControl): {[s: string]: boolean} {
+        if(control.value === this.profile.password) {
+            /**
+             * correct psw
+             */
+            return null;
+        }
+        return {'passwordIncorrect' : true};
+    }
+
+
+    onChangeMail(){
+        console.log(this.emailForm);
+        this.emailChangeSubmitted = true;
+        if((this.emailForm.get('password').valid && 
+            this.emailForm.get('confirm').valid ) && 
+            this.emailForm.touched){
+
+                let profileUpdated: Profile = this.profile;
+                profileUpdated.email = this.emailForm.value.email;
+                
+
+                this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
+                    for(const key in responseProfiles){
+                        if(responseProfiles.hasOwnProperty(key)){
+                            if(responseProfiles[key].id === this.idSession){
+                                console.log('profilo trovato');
+                                this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
+                                    console.log(response);
+        
+                                    /**
+                                     * navigazione al profilo
+                                     */
+                                    this.router.navigate([`/profiles/${this.idSession}`]);
+                                });
+                                break;
+                            }
+                        }
+                    }
+                })
+            }
+
     }
 }
