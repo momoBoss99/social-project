@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('authForm') loginForm: NgForm;
+  errorLogin: boolean = false;
 
   constructor(private authService: AuthService, private router: Router){}
   ngOnInit(): void {
@@ -29,8 +30,7 @@ export class LoginComponent implements OnInit {
         let idUser: number = user.id;
         this.router.navigate([`/profiles/${idUser}`]);
       } else {
-        console.log("login non riuscito");
-        window.alert("Ricontrolla email e password!");
+        this.errorLogin = true;
       }
 
   }
