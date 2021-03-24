@@ -94,16 +94,26 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
-            <div class="alert alert-danger" role="alert"
+            <!--<div class="alert alert-danger" role="alert"
             *ngIf="(!passwordForm.get('old').valid || 
             passwordForm.value.new !==
             passwordForm.value.confirm) &&
             passwordChangeSubmitted && 
             passwordForm.touched">
             password sbagliata!
+            </div>-->
+
+            <div class="alert alert-danger" role="alert"
+            *ngIf="!passwordChangeSuccess && passwordChangeSubmitted">
+            password sbagliata!
             </div>
 
+            <div class="alert alert-success" role="alert"
+                *ngIf="passwordChangeSuccess && passwordChangeSubmitted">
+                Password modificata con successo.
+            </div>
 
+            
             <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
                 <h3>vecchia password:</h3>
                 <input 

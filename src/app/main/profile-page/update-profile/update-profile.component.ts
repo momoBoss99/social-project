@@ -25,6 +25,7 @@ export class UpdateProfileComponent implements OnInit{
      */
     passwordForm: FormGroup;
     passwordChangeSubmitted: boolean = false;
+    passwordChangeSuccess: boolean = false;
 
     constructor(private profilesService: AccountsService, private router: Router){}
 
@@ -120,7 +121,7 @@ export class UpdateProfileComponent implements OnInit{
                     }
                 })
         } else {
-            this.emailChangeSuccess = false;
+            this.emailChangeSuccess = false; 
         }
     }
 
@@ -135,7 +136,7 @@ export class UpdateProfileComponent implements OnInit{
     onChangePassword(){
         console.log('password changed');
         console.log(this.passwordForm.value);
-        this.passwordChangeSubmitted = true;
+        this.passwordChangeSuccess = false;
         if(this.passwordForm.get('old').valid &&
             (this.passwordForm.value.new === this.passwordForm.value.confirm) &&
             this.passwordForm.touched){
@@ -149,11 +150,12 @@ export class UpdateProfileComponent implements OnInit{
                                 console.log('profilo trovato');
                                 this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
                                     console.log(response);
-        
+                                    this.passwordChangeSuccess = true;
+                                    this.passwordChangeSubmitted = true;
                                     /**
                                      * navigazione al profilo
                                      */
-                                    this.router.navigate([`/profiles/${this.idSession}`]);
+                                    //this.router.navigate([`/profiles/${this.idSession}`]);
                                 });
                                 break;
                             }
