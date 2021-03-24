@@ -2,6 +2,7 @@ import { Injectable, OnInit } from "@angular/core";
 import { AccountsService } from "../main/accounts.service";
 import { Profile } from "../shared/profile.model";
 import { UUID } from 'angular2-uuid';
+import { Subject } from "rxjs";
 
 /**
  * 
@@ -14,14 +15,14 @@ export class AuthService implements OnInit{
     defaultPassword: string = "password";
 
     constructor(private profilesService: AccountsService){
-        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
-            this.profiles = responseProfiles;
-            console.log(this.profiles);
-        });
     }
 
 
     ngOnInit() {
+        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
+            this.profiles = responseProfiles;
+            console.log(this.profiles);
+        });
     }
 
     /**
@@ -34,7 +35,7 @@ export class AuthService implements OnInit{
     signup(email: string, password: string, username: string){ 
         let id = UUID.UUID();
         let newProfile: Profile = new Profile(id, username, username, null, null, email, password);
-        this.profiles.push(newProfile);
+        //this.profiles.push(newProfile);
         this.profilesService.createAccount(newProfile).subscribe(response => {
             console.log(response);
         });
@@ -43,18 +44,35 @@ export class AuthService implements OnInit{
     login(email: string, password: string){
         console.log(email);
         console.log(password);
+        var flag = new Subject<boolean>();
+        let found: boolean = false;
+        this.profilesService.fetchAccounts().subscribe(responseProfiles => {
+            for(let profile of responseProfiles){
+                if(profile.email === email && profile.password === password){
+                    localStorage.setItem("sessione", JSON.stringify(profile));
+                    flag.next(true);
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                flag.next(false);
+            }
+        });
+        return flag.asObservable();
+
+
+        /*
         for(let profile of this.profiles){
             if(profile.email === email && profile.password === password){
-                /**
-                 * aggiungere successivamente il check per 
-                 * psw
-                 */
+
                 console.log('account trovato');
                 localStorage.setItem("sessione", JSON.stringify(profile));
                 return true;
             }
         }
         return false;
+        */
     }
 
     logout(){
@@ -69,8 +87,7 @@ export class AuthService implements OnInit{
                     if(tmp.email === email){
                         /**
                          * account trovato, aggiungere 
-                         * modifica psw dopo aver modificato
-                         * la classe Profile
+                         * modifica psw
                          */
                         tmp.password = this.defaultPassword;
                         for(let i = 0; i < this.profiles.length; i++){
@@ -79,9 +96,7 @@ export class AuthService implements OnInit{
                                 break;
                             }
                         }
-                        this.profilesService.updateAccount(key, tmp).subscribe(response => {
-                            console.log(response);
-                        });
+                        this.profilesService.updateAccount(key, tmp).subscribe(response => {});
                     }
                 }
             }
