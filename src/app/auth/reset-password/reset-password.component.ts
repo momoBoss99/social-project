@@ -10,6 +10,8 @@ import { AuthService } from "../auth.service";
 })
 export class ResetPasswordComponent implements OnInit {
     @ViewChild('f') resetForm: NgForm;
+    errorReset: boolean = false;
+    formSubmitted: boolean = false;
 
     constructor(private authService: AuthService, 
                 private router: Router){}
@@ -19,8 +21,19 @@ export class ResetPasswordComponent implements OnInit {
     onSubmit(){
         console.log('rest started');
         console.log(this.resetForm.value.email);
-        //this.router.navigate(['']);
-        this.authService.resetPassword(this.resetForm.value.email);
+        this.authService.resetPassword(this.resetForm.value.email).subscribe(response => {
+            if(response){
+                console.log('okay');
+            }
+            else if(!response){
+                console.log('error');
+                this.errorReset = true;
+            }
+            this.formSubmitted = true;
+        }, error => {
+            this.errorReset = true;
+            console.log(error);
+        });
     }
 
     onNavigate(){

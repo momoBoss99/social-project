@@ -44,7 +44,7 @@ export class AuthService implements OnInit{
     login(email: string, password: string){
         console.log(email);
         console.log(password);
-        var flag = new Subject<boolean>();
+        let flag = new Subject<boolean>();
         let found: boolean = false;
         this.profilesService.fetchAccounts().subscribe(responseProfiles => {
             for(let profile of responseProfiles){
@@ -60,19 +60,6 @@ export class AuthService implements OnInit{
             }
         });
         return flag.asObservable();
-
-
-        /*
-        for(let profile of this.profiles){
-            if(profile.email === email && profile.password === password){
-
-                console.log('account trovato');
-                localStorage.setItem("sessione", JSON.stringify(profile));
-                return true;
-            }
-        }
-        return false;
-        */
     }
 
     logout(){
@@ -80,26 +67,22 @@ export class AuthService implements OnInit{
     }
 
     resetPassword(email: string){
+        let flag = new Subject<boolean>();
+        flag.next(false);
+        console.log(email);
         this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
             for(const key in responseProfiles){
                 if(responseProfiles.hasOwnProperty(key)){
                     let tmp: Profile = {...responseProfiles[key]};
                     if(tmp.email === email){
-                        /**
-                         * account trovato, aggiungere 
-                         * modifica psw
-                         */
-                        tmp.password = this.defaultPassword;
-                        for(let i = 0; i < this.profiles.length; i++){
-                            if(this.profiles[i].email === tmp.email){
-                                this.profiles[i] = tmp;
-                                break;
-                            }
-                        }
-                        this.profilesService.updateAccount(key, tmp).subscribe(response => {});
+                        this.profilesService.updateAccount(key, tmp).subscribe(response => {
+                            flag.next(true);
+                        });
+                        break;
                     }
                 }
             }
         });
+        return flag.asObservable();
     }
 }
