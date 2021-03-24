@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Subject, Subscription } from "rxjs";
 import { AuthService } from "../auth.service";
 
 @Component({
@@ -8,10 +9,11 @@ import { AuthService } from "../auth.service";
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
     @ViewChild('f') resetForm: NgForm;
     errorReset: boolean = false;
     formSubmitted: boolean = false;
+    resetPswSubscription: Subscription;
 
     constructor(private authService: AuthService, 
                 private router: Router){}
@@ -19,13 +21,13 @@ export class ResetPasswordComponent implements OnInit {
     ngOnInit(){}
 
     onSubmit(){
-        console.log('rest started');
+        console.log('reset started');
         console.log(this.resetForm.value.email);
-        this.authService.resetPassword(this.resetForm.value.email).subscribe(response => {
+        this.resetPswSubscription = this.authService.resetPassword(this.resetForm.value.email).subscribe(response => {
             if(response){
                 console.log('okay');
             }
-            else if(!response){
+            else{
                 console.log('error');
                 this.errorReset = true;
             }
@@ -34,6 +36,10 @@ export class ResetPasswordComponent implements OnInit {
             this.errorReset = true;
             console.log(error);
         });
+    }
+
+    ngOnDestroy(): void {
+        //this.resetPswSubscription.unsubscribe();
     }
 
     onNavigate(){

@@ -68,7 +68,6 @@ export class AuthService implements OnInit{
 
     resetPassword(email: string){
         let flag = new Subject<boolean>();
-        flag.next(false);
         console.log(email);
         this.profilesService.prepareUpdateAccount().subscribe(responseProfiles => {
             for(const key in responseProfiles){
@@ -78,11 +77,12 @@ export class AuthService implements OnInit{
                         this.profilesService.updateAccount(key, tmp).subscribe(response => {
                             flag.next(true);
                         });
-                        break;
+                        return;
                     }
                 }
             }
+            flag.next(false);
         });
-        return flag.asObservable();
+        return flag;
     }
 }
