@@ -19,6 +19,7 @@ export class UpdateProfileComponent implements OnInit{
      */
     emailForm: FormGroup;
     emailChangeSubmitted: boolean = false;
+    emailChangeSuccess: boolean = false;
     /**
      * cambio psw
      */
@@ -107,17 +108,19 @@ export class UpdateProfileComponent implements OnInit{
                                 console.log('profilo trovato');
                                 this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
                                     console.log(response);
-        
+                                    this.emailChangeSuccess = true;
                                     /**
                                      * navigazione al profilo
                                      */
-                                    this.router.navigate([`/profiles/${this.idSession}`]);
+                                    //this.router.navigate([`/profiles/${this.idSession}`]);
                                 });
                                 break;
                             }
                         }
                     }
                 })
+        } else {
+            this.emailChangeSuccess = false;
         }
     }
 
