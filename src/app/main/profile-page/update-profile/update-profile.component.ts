@@ -17,18 +17,26 @@ export class UpdateProfileComponent implements OnInit{
     /**
      * cambio email
      */
-    emailForm: FormGroup;
+    emailForm: FormGroup =new FormGroup({
+        'email': new FormControl(null, [Validators.required, Validators.email]),
+        'password': new FormControl(null, [Validators.required]),
+        'confirm': new FormControl(null, [Validators.required])
+    });
     emailChangeSubmitted: boolean = false;
     emailChangeSuccess: boolean = false;
     /**
      * cambio psw
      */
-    passwordForm: FormGroup;
+    passwordForm: FormGroup = new FormGroup({
+        'old': new FormControl(null, [Validators.required]),
+        'new': new FormControl(null, [Validators.required]),
+        'confirm': new FormControl(null, [Validators.required])
+    });
     passwordChangeSubmitted: boolean = false;
     passwordChangeSuccess: boolean = false;
 
     constructor(private profilesService: AccountsService, private router: Router){}
-
+    
     ngOnInit(){
         this.getProfile();
     }
@@ -90,10 +98,8 @@ export class UpdateProfileComponent implements OnInit{
         return {'passwordIncorrect' : true};
     }
 
-
     onChangeMail(){
         console.log(this.emailForm);
-        this.emailChangeSubmitted = true;
         if((this.emailForm.get('password').valid && 
             this.emailForm.get('confirm').valid ) && 
             this.emailForm.touched){
@@ -109,11 +115,8 @@ export class UpdateProfileComponent implements OnInit{
                                 console.log('profilo trovato');
                                 this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
                                     console.log(response);
+                                    this.emailChangeSubmitted = true;
                                     this.emailChangeSuccess = true;
-                                    /**
-                                     * navigazione al profilo
-                                     */
-                                    //this.router.navigate([`/profiles/${this.idSession}`]);
                                 });
                                 break;
                             }

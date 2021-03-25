@@ -39,7 +39,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        //this.resetPswSubscription.unsubscribe();
+        this.resetPswSubscription ? this.resetPswSubscription.unsubscribe() : null;
     }
 
     onNavigate(){

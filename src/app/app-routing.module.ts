@@ -16,7 +16,6 @@ const appRoutes: Routes = [
     loadChildren: () => 
         import('./chat/chat.module').then((m) => m.ChatModule),
   },
-
   { path: '**',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule)
   }

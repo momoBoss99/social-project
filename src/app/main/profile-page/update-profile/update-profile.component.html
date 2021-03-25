@@ -44,16 +44,9 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
-            <!--<div class="alert alert-danger" role="alert"
-                    *ngIf="emailChangeSubmitted &&
-                    (!emailForm.get('password').valid || 
-                    !emailForm.get('confirm').valid ) &&
-                    emailForm.touched">
-                    password sbagliata!
-            </div>-->
             <div class="alert alert-danger" role="alert"
-                    *ngIf="!emailChangeSuccess &&
-                    emailChangeSubmitted">
+                    *ngIf="emailChangeSubmitted &&
+                    !emailChangeSuccess">
                     password sbagliata!
             </div>
 
@@ -125,7 +118,8 @@
                         id="confirm"
                         formControlName="confirm"
                         class="form-control">
-                <button
+                <button 
+                        
                         type="submit"
                         class="btn btn-primary">
                     cambia password

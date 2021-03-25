@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,11 +9,13 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('authForm') loginForm: NgForm;
   errorLogin: boolean = false;
+  loginSubscription: Subscription;
 
   constructor(private authService: AuthService, private router: Router){}
+
   ngOnInit(): void {
 
   }
@@ -25,7 +27,7 @@ export class LoginComponent implements OnInit {
 
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-      this.authService.login(email, password).subscribe(response => {
+      this.loginSubscription = this.authService.login(email, password).subscribe(response => {
         if(response){
           let user: {email: string, password: string, id: number} = JSON.parse(localStorage.getItem("sessione"));
           let idUser: number = user.id;
@@ -34,5 +36,9 @@ export class LoginComponent implements OnInit {
           this.errorLogin = true;
         }
       })
+  }
+
+  ngOnDestroy(): void { 
+    this.loginSubscription ? this.loginSubscription.unsubscribe() : null;
   }
 }
