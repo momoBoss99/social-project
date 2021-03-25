@@ -9,6 +9,15 @@ import { Profile } from "src/app/shared/profile.model";
 import { AccountsService } from "../accounts.service";
 import { UUID } from 'angular2-uuid';
 
+/**
+ * classe impiegata per la view dei comments
+ */
+class CommentView {
+    constructor(public nickname: string, 
+                public comment: string, 
+                public idProfile: string, 
+                public idComment: string){}
+}
 
 @Component({
     selector: 'app-post-card',
@@ -22,7 +31,7 @@ export class PostCardComponent implements OnInit {
      * variabili che servono ad aggiungere un commento
      * oppure ad aggiungere un like
      */
-
+    commentiView: CommentView[] = [];
     /**
      * l'idea è quella di utilizzare due vettori paralleli
      * uno di commenti e l'altro di profili.
@@ -93,13 +102,15 @@ export class PostCardComponent implements OnInit {
     private getAndFiltraCommenti(){
         this.profilesService.fetchComments().subscribe(
             responseComments => {
+                this.commentiView = [];
                 this.commenti = [];
                 this.likesPerOgniCommento = [];
                 this.isCommentsLikesLoaded = false;
                 for(let comment of responseComments){
                     if(comment.idPost === this.post.idPost){
+                        let commentoView: CommentView = new CommentView(null, comment.comment, comment.idProfilo, comment.idCommento);
                         this.commenti.push(comment);
-                        this.getAccount(comment.idCommentatore);
+                        this.getAccount(comment.idCommentatore, commentoView);
                         this.getLikesPerCommento(comment);
                     }
                 }
@@ -112,11 +123,14 @@ export class PostCardComponent implements OnInit {
         
     }
     
-    private getAccount(idCommentatore: string){
+    private getAccount(idCommentatore: string, commentoView: CommentView){
         this.profilesService.fetchAccounts().subscribe(
             responseProfiles => {
                 for(let profile of responseProfiles){
                     if(profile.id === idCommentatore){
+                        commentoView.nickname = profile.nickname;
+                        this.commentiView.push(commentoView);
+                        console.log(commentoView);
                         this.profiliCommentatori.push(profile);
                         break;
                     }
