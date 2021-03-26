@@ -20,7 +20,7 @@ import { ResetPasswordComponent } from "./reset-password/reset-password.componen
         FormsModule,
         RouterModule.forChild([
             { path: '', component: AuthComponent, children: [
-                { path: '', component: LoginComponent},
+                { path: 'login', component: LoginComponent},
                 { path: 'register', component: RegisterComponent},
                 { path: 'resetpassword', component: ResetPasswordComponent}
             ] }

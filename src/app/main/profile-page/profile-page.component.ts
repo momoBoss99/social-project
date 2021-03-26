@@ -81,7 +81,7 @@ export class ProfilePageComponent implements OnInit {
     }
 
     openPost(idPost: string){
-      this.router.navigate([`/profiles/posts/${idPost}`]);
+      this.router.navigate([`/post/${idPost}`]);
     }
     /**
      * modale dinamico che apre un modale con dentro solo l'immagine

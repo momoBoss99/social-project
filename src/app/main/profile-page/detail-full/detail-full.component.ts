@@ -24,7 +24,8 @@ export class DetailFullComponent implements OnInit {
     }
 
     private getDati(){
-        this.idPost = this.route.url.substring(16, this.route.url.length);
+        let startingUrl: number = 6;
+        this.idPost = this.route.url.substring(startingUrl, this.route.url.length);
         console.log(this.idPost);
         this.getPost();
     }

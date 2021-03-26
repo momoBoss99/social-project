@@ -16,7 +16,7 @@
 
 				<h1 class="profile-user-name">{{profilo.nickname}}</h1>
 
-				<button class="btn profile-edit-btn" *ngIf="myProfile" routerLink="/profiles/edit/profile">Modifica</button>
+				<button class="btn profile-edit-btn" *ngIf="myProfile" routerLink="/profile/edit">Modifica</button>
 				<button class="btn profile-edit-btn" *ngIf="!myProfile" (click)="onToggleFollow()">
 					<span *ngIf="following">Followed</span>
 					<span *ngIf="!following">Follow</span>

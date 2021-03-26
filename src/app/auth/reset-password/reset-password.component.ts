@@ -43,6 +43,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
 
     onNavigate(){
-        this.router.navigate(['']);
+        this.router.navigate(['/auth/login']);
     }
 }

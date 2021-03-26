@@ -38,7 +38,7 @@ export class EditPostCardComponent implements OnInit {
     }
     
     getPost(){
-        let startingUrl: number = 20;
+        let startingUrl: number = 11;
         this.idPost = this.router.url.substring(startingUrl, this.router.url.length);
         console.log(this.idPost);
         

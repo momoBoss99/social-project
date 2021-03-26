@@ -53,10 +53,6 @@ export class UpdateProfileComponent implements OnInit{
                         console.log('profilo trovato');
                         this.profilesService.updateAccount(key, profileUpdated).subscribe(response => {
                             console.log(response);
-
-                            /**
-                             * navigazione al profilo
-                             */
                             this.router.navigate([`/profiles/${this.idSession}`]);
                         });
                         break;
@@ -155,10 +151,6 @@ export class UpdateProfileComponent implements OnInit{
                                     console.log(response);
                                     this.passwordChangeSuccess = true;
                                     this.passwordChangeSubmitted = true;
-                                    /**
-                                     * navigazione al profilo
-                                     */
-                                    //this.router.navigate([`/profiles/${this.idSession}`]);
                                 });
                                 break;
                             }
