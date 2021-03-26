@@ -51,11 +51,18 @@ export class DetailFullComponent implements OnInit {
                 for(let account of responseAccounts){
                     if(account.id === this.post.idProfile){
                         this.profilo = account;
+                        this.fillProfile(this.profilo);
                         this.loadingProfile = true;
                         break;
                     }
                 }
             }
         );
+    }
+
+    private fillProfile(profile: Profile){
+        if(!profile.proPic || profile.proPic === undefined){
+            profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        }
     }
 }

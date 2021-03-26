@@ -57,19 +57,13 @@ export class PostCardComponent implements OnInit {
      */
     isDropdown: boolean = false;
 
-    constructor(private profilesService: AccountsService, private http: HttpClient, private router: Router){}
+    constructor(private profilesService: AccountsService, private http: HttpClient, private router: Router){
+    }
 
     ngOnInit(){
-        /*console.log(this.profilo);
-        this.fillProfile(this.profilo);
-        console.log(this.profilo);
-        */
-        
         this.loadingComment = false;
         this.getAndFiltraCommenti();
         this.getAndFiltraLikes();
-
-
     }
     
     /**
@@ -330,5 +324,11 @@ export class PostCardComponent implements OnInit {
         console.log('focus comment form');
         let textArea = document.getElementById(this.post.idPost);
         textArea.focus();
+    }
+
+    private fillProfile(profile: Profile){
+        if(!profile.proPic || profile.proPic === undefined){
+            profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        }
     }
 }   

@@ -10,9 +10,7 @@ import { UpdateProfileComponent } from "./profile-page/update-profile/update-pro
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 const routes: Routes = [
-    { path: '', component: MainComponent,
-            //canActivate: [AuthGuard],
-            children: [
+    { path: '' , component: MainComponent, children: [
         { path: 'homepage', component: HomepageComponent},
         { path: 'profiles', children: [
             { path: ':id', component: ProfilePageComponent},
@@ -33,15 +31,6 @@ const routes: Routes = [
             { path: ':id', component: DetailFullComponent },
             { path: 'edit/:id', component: EditPostCardComponent }, 
         ]}
-        /*{ path: ':id', component: ProfilePageComponent},
-        { path: 'list/likes/:idpost', component: ProfilesListViewComponent},
-        { path: 'list/followers/:idprofile', component: ProfilesListViewComponent},
-        { path: 'list/follows/:idprofiles', component: ProfilesListViewComponent},
-        /*{ path: 'add/post', component: AddPostComponent},
-        { path: 'edit/post/:idpost', component: EditPostCardComponent},*/
-        /*{ path: 'edit/profile', component: UpdateProfileComponent},
-        { path: 'search/:name', component: SearchProfilesComponent},
-        /*{ path: 'posts/:id', component: DetailFullComponent},*/
     ]},
 ];
 

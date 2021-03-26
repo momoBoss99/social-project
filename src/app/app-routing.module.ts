@@ -3,14 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
   {
+    path: '', pathMatch:'full', redirectTo: '/auth/login'
+  }, 
+  {
     path: '',
     loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
   },
-  /*{
-    path: 'profiles',
-    loadChildren: () =>
-        import('./main/main.module').then((m) => m.MainModule),
-  },*/
   {
     path: 'auth',
     loadChildren: () => 
@@ -21,7 +19,7 @@ const appRoutes: Routes = [
     loadChildren: () => 
         import('./chat/chat.module').then((m) => m.ChatModule),
   },
-  { path: '**',
+  { path: '**', 
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule)
   }
 ];

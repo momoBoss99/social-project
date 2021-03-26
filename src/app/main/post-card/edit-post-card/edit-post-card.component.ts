@@ -30,6 +30,7 @@ export class EditPostCardComponent implements OnInit {
             for(let profile of responseProfiles){
                 if(profile.id === this.idSession){
                     this.profile = profile;
+                    this.fillProfile(this.profile);
                     console.log(this.profile);
                     break;
                 }
@@ -73,6 +74,11 @@ export class EditPostCardComponent implements OnInit {
                 }
             }
         });
+    }
 
+    private fillProfile(profile: Profile){
+        if(!profile.proPic || profile.proPic === undefined){
+            profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        }
     }
 }
