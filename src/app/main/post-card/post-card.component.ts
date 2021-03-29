@@ -28,6 +28,11 @@ export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
     /**
+     * dbProfili:
+     */
+    allProfiles: Profile[] = [];
+
+    /**
      * variabili che servono ad aggiungere un commento
      * oppure ad aggiungere un like
      */
@@ -62,6 +67,8 @@ export class PostCardComponent implements OnInit {
 
     ngOnInit(){
         this.loadingComment = false;
+        this.allProfiles = this.profilesService.profiles;
+        console.log(this.allProfiles);
         this.getAndFiltraCommenti();
         this.getAndFiltraLikes();
     }
@@ -118,7 +125,25 @@ export class PostCardComponent implements OnInit {
     }
     
     private getAccount(idCommentatore: string, commentoView: CommentView){
+        for(let profile of this.allProfiles){
+            if(profile.id === idCommentatore){
+                commentoView.nickname = profile.nickname;
+                this.commentiView.push(commentoView);
+                this.profiliCommentatori.push(profile);
+                return;
+            }
+        }
+        /**
+         * profilo non trovato, riaggiorno i profili
+         */
         this.profilesService.fetchAccounts().subscribe(
+            responseProfiles => {
+                this.allProfiles = responseProfiles;
+                this.getAccount(idCommentatore, commentoView);
+            }
+        )
+
+        /*this.profilesService.fetchAccounts().subscribe(
             responseProfiles => {
                 for(let profile of responseProfiles){
                     if(profile.id === idCommentatore){
@@ -131,7 +156,7 @@ export class PostCardComponent implements OnInit {
                 }
                 console.log(this.profiliCommentatori);
             }
-        );
+        );*/
     }
     /**
      * metodo privato che mi permette di prendere tutti i like e poi
@@ -319,16 +344,9 @@ export class PostCardComponent implements OnInit {
         });
     }
 
-
     onFocusCommentForm(){
         console.log('focus comment form');
         let textArea = document.getElementById(this.post.idPost);
         textArea.focus();
-    }
-
-    private fillProfile(profile: Profile){
-        if(!profile.proPic || profile.proPic === undefined){
-            profile.proPic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
-        }
     }
 }   

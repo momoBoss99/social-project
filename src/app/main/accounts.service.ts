@@ -1,11 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { Profile } from "../shared/profile.model";
 import { map} from 'rxjs/operators';
 import { Post } from "../shared/post.model";
 import { Commento } from "../shared/commento.model";
 import { Like } from "../shared/like.model";
-import { pipe } from "rxjs";
 import { Follow } from "../shared/follow.model";
 import { CommentoLike } from "../shared/commento-like.model";
 
@@ -18,7 +17,14 @@ import { CommentoLike } from "../shared/commento-like.model";
     providedIn: 'root'
 })
 export class AccountsService {
-    constructor(private http: HttpClient){}
+    profiles: Profile[] = [];
+
+    constructor(private http: HttpClient){
+        this.fetchAccounts().subscribe(responseProfiles => {
+            this.profiles = responseProfiles;
+            console.log(this.profiles);
+        })
+    }
 
     /**
      * metodo che mi permette di fare il fetch di tutti i profili.
